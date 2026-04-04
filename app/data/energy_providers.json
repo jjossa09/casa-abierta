@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Green Valley Electric",
+    "rate": 0.12,
+    "service_area": "Southwest",
+    "zip_codes": "78201,78202,78203,78204,78205"
+  },
+  {
+    "name": "SunState Power",
+    "rate": 0.10,
+    "service_area": "Central",
+    "zip_codes": "78206,78207,78208,78209,78210"
+  },
+  {
+    "name": "Metro Energy Co.",
+    "rate": 0.14,
+    "service_area": "Metro",
+    "zip_codes": "78201,78206,78211,78212"
+  }
+]

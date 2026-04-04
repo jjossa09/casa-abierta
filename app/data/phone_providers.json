@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ConnectMX",
+    "rate": 25.00,
+    "service_area": "Nationwide",
+    "zip_codes": ""
+  },
+  {
+    "name": "BudgetCell",
+    "rate": 15.00,
+    "service_area": "Nationwide",
+    "zip_codes": ""
+  },
+  {
+    "name": "FamilyLink",
+    "rate": 20.00,
+    "service_area": "Nationwide",
+    "zip_codes": ""
+  }
+]

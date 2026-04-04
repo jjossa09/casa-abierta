@@ -1,0 +1,20 @@
+[
+  {
+    "name": "City Water Works",
+    "rate": 0.004,
+    "service_area": "Downtown",
+    "zip_codes": "78201,78202,78203"
+  },
+  {
+    "name": "Regional Aqua",
+    "rate": 0.0035,
+    "service_area": "Suburban",
+    "zip_codes": "78204,78205,78206,78207"
+  },
+  {
+    "name": "Valley Water District",
+    "rate": 0.003,
+    "service_area": "Rural",
+    "zip_codes": "78208,78209,78210,78211"
+  }
+]
