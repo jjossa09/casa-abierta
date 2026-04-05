@@ -2150,7 +2150,6 @@ function getAlternatives(billType, overpaying, lang) {
         name: es
           ? "Participación Solar Comunitaria"
           : "Community Solar Share",
-        url: "https://www.energysage.com/community-solar/",
         saving: Math.round(overpaying * 0.6),
         icon: "☀️",
         reliability: 98,
@@ -2186,7 +2185,6 @@ function getAlternatives(billType, overpaying, lang) {
         name: es
           ? "Energía Verde Directa"
           : "Green Power Direct",
-        url: "https://www.epa.gov/greenpower",
         saving: Math.round(overpaying * 0.45),
         icon: "⚡",
         reliability: 97,
@@ -2209,7 +2207,6 @@ function getAlternatives(billType, overpaying, lang) {
       },
       {
         name: es ? "Plan por Hora de Uso" : "Time-of-Use Plan",
-        url: "https://www.energysage.com/electricity-rates/time-of-use-rates/",
         saving: Math.round(overpaying * 0.3),
         icon: "🕐",
         reliability: 99,
@@ -2237,7 +2234,6 @@ function getAlternatives(billType, overpaying, lang) {
     water: [
       {
         name: es ? "Programa WaterSmart" : "WaterSmart Program",
-        url: "https://www.watersmart.com",
         saving: Math.round(overpaying * 0.5),
         icon: "💧",
         reliability: 97,
@@ -2262,7 +2258,6 @@ function getAlternatives(billType, overpaying, lang) {
         name: es
           ? "Kit de Captación de Lluvia"
           : "Rainwater Harvesting Kit",
-        url: "https://www.epa.gov/watersense/rainwater-harvesting",
         saving: Math.round(overpaying * 0.4),
         icon: "🌧️",
         reliability: 85,
@@ -2287,7 +2282,6 @@ function getAlternatives(billType, overpaying, lang) {
         name: es
           ? "Paquete de Bajo Flujo"
           : "Low-Flow Retrofit Bundle",
-        url: "https://www.epa.gov/watersense",
         saving: Math.round(overpaying * 0.25),
         icon: "🚿",
         reliability: 99,
@@ -2312,7 +2306,6 @@ function getAlternatives(billType, overpaying, lang) {
     phone: [
       {
         name: es ? "Plan Móvil Casa" : "Casa Mobile Plan",
-        url: "https://www.mintmobile.com",
         saving: Math.round(overpaying * 0.55),
         icon: "📱",
         reliability: 96,
@@ -2340,7 +2333,6 @@ function getAlternatives(billType, overpaying, lang) {
         name: es
           ? "Llamadas por WiFi Comunitario"
           : "Community WiFi Calling",
-        url: "https://fi.google.com",
         saving: Math.round(overpaying * 0.65),
         icon: "📡",
         reliability: 93,
@@ -2366,7 +2358,6 @@ function getAlternatives(billType, overpaying, lang) {
       },
       {
         name: es ? "Prepago Ilimitado" : "Prepaid Unlimited",
-        url: "https://www.visible.com",
         saving: Math.round(overpaying * 0.4),
         icon: "🔋",
         reliability: 98,
@@ -3218,14 +3209,9 @@ function BillAnalyzerPage({ onBack, lang }) {
                           </ul>
                         </div>
                       </div>
-                      <a
-                        href={alt.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-5 w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl text-sm hover:shadow-lg transition-all flex items-center justify-center"
-                      >
+                      <button className="mt-5 w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl text-sm hover:shadow-lg transition-all">
                         {t.learnMoreBtn} →
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>
