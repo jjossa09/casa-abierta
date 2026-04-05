@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import * as api from "../lib/api";
 import {
   Menu,
   User,
@@ -28,7 +29,7 @@ import {
   Battery,
   Waves,
 } from "lucide-react";
-import logo from "figma:asset/6e16dc174382cc95dd21fce17c3cc0b68d402e35.png";
+import logo from "../assets/6e16dc174382cc95dd21fce17c3cc0b68d402e35.png";
 
 const T = {
   en: {
@@ -475,17 +476,52 @@ function LoginModal({ onClose, onLogin }) {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
-    onLogin({ email, name: email.split("@")[0] });
-    onClose();
+    setLoading(true);
+    setError("");
+    try {
+      await api.login(email, password);
+      const user = await api.getMe();
+      localStorage.setItem("ca_user", JSON.stringify(user));
+      onLogin({ email: user.email, name: user.first_name, ...user });
+      onClose();
+    } catch (e: any) {
+      setError(e.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!email || !password || !firstName || !lastName) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      await api.register({ email, password, first_name: firstName, last_name: lastName });
+      await api.login(email, password);
+      const user = await api.getMe();
+      localStorage.setItem("ca_user", JSON.stringify(user));
+      onLogin({ email: user.email, name: user.first_name, ...user });
+      onClose();
+    } catch (e: any) {
+      setError(e.message || "Registration failed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleForgot = () => {
@@ -594,18 +630,100 @@ function LoginModal({ onClose, onLogin }) {
             </div>
             <button
               onClick={handleLogin}
-              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all mb-3"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all mb-3 disabled:opacity-50"
             >
-              Sign In
+              {loading ? "Signing in…" : "Sign In"}
             </button>
             <button
-              onClick={() => {
-                setMode("forgot");
-                setError("");
-              }}
-              className="w-full py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-medium rounded-xl transition-colors text-sm"
+              onClick={() => { setMode("forgot"); setError(""); }}
+              className="w-full py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-medium rounded-xl transition-colors text-sm mb-2"
             >
               Forgot Password?
+            </button>
+            <button
+              onClick={() => { setMode("register"); setError(""); }}
+              className="w-full py-2 text-gray-500 hover:text-[#FF6B35] transition-colors text-sm"
+            >
+              Don't have an account? <span className="font-semibold">Create one →</span>
+            </button>
+          </>
+        )}
+
+        {mode === "register" && (
+          <>
+            <h2 className="text-2xl font-black text-white mb-1">Create account</h2>
+            <p className="text-gray-500 text-sm mb-6">Join Casa Abierta and start saving.</p>
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+            <div className="space-y-4 mb-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1.5 font-medium">First Name</label>
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => { setFirstName(e.target.value); setError(""); }}
+                    placeholder="Maria"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1.5 font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => { setLastName(e.target.value); setError(""); }}
+                    placeholder="Garcia"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1.5 font-medium">Email</label>
+                <div className="relative">
+                  <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(""); }}
+                    placeholder="you@example.com"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl pl-9 pr-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1.5 font-medium">Password</label>
+                <div className="relative">
+                  <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                    placeholder="••••••••"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl pl-9 pr-10 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                  <button type="button" onClick={() => setShowPass((p) => !p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                    {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleRegister}
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all mb-3 disabled:opacity-50"
+            >
+              {loading ? "Creating account…" : "Create Account"}
+            </button>
+            <button
+              onClick={() => { setMode("login"); setError(""); }}
+              className="w-full py-2 text-gray-500 hover:text-white transition-colors text-sm flex items-center justify-center gap-2"
+            >
+              <ArrowLeft size={14} /> Back to Sign In
             </button>
           </>
         )}
@@ -2358,28 +2476,73 @@ function BillAnalyzerPage({ onBack, lang }) {
   const [billAmount, setBillAmount] = useState("");
   const [billUsage, setBillUsage] = useState("");
   const [billProvider, setBillProvider] = useState("");
+  const [billAddress, setBillAddress] = useState("Atlanta, GA");
   const [dragOver, setDragOver] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [expanded, setExpanded] = useState(null);
+  const [apiProviders, setApiProviders] = useState<any[] | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
   const fileRef = useRef(null);
 
-  const analyze = () => {
-    if (!billAmount) return;
+  const analyze = async () => {
+    if (!billAmount && !uploadedFile) return;
     setStep("analyzing");
     setProgress(0);
-    const iv = setInterval(
-      () =>
-        setProgress((p) => {
-          if (p >= 100) {
-            clearInterval(iv);
-            setStep("results");
-            return 100;
-          }
-          return p + 3;
-        }),
-      55,
-    );
+    setApiProviders(null);
+    setApiError(null);
+
+    // Animate progress up to 90% while waiting for API
+    const iv = setInterval(() => {
+      setProgress((p) => (p >= 90 ? 90 : p + 2));
+    }, 60);
+
+    try {
+      let currentAmount = parseFloat(billAmount) || 0;
+      let currentUsage = parseFloat(billUsage) || 0;
+      let currentProvider = billProvider;
+
+      // Step 1: Upload file if provided (energy/water only)
+      if (uploadedFile && billType !== "phone") {
+        const parsed = await api.uploadBill(uploadedFile, billType as "energy" | "water");
+        if (parsed.amount_due) { currentAmount = parsed.amount_due; setBillAmount(String(parsed.amount_due)); }
+        if (parsed.usage_amount) { currentUsage = parsed.usage_amount; setBillUsage(String(parsed.usage_amount)); }
+        if (parsed.provider_name) { currentProvider = parsed.provider_name; setBillProvider(parsed.provider_name); }
+      }
+
+      // Step 2: Compare providers
+      if (billType === "energy") {
+        const usageKwh = currentUsage || 850;
+        const rate = usageKwh > 0 ? currentAmount / usageKwh : 0.12;
+        const res = await api.compareEnergy({
+          address: billAddress || "Atlanta, GA",
+          current_usage_kwh: usageKwh,
+          current_bill_amount: currentAmount,
+          current_rate_per_kwh: rate,
+        });
+        setApiProviders(res.providers);
+      } else if (billType === "water") {
+        const gallons = currentUsage || 3200;
+        const rate = gallons > 0 ? currentAmount / gallons : 0.0075;
+        const res = await api.compareWater({
+          address: billAddress || "Atlanta, GA",
+          monthly_gallons: gallons,
+          current_bill_amount: currentAmount,
+          current_rate_per_gallon: rate,
+        });
+        setApiProviders(res.providers);
+      } else {
+        const gb = currentUsage || 10;
+        const res = await api.comparePhone({ monthly_gb: gb, num_lines: 1 });
+        setApiProviders(res.plans);
+      }
+    } catch (e: any) {
+      setApiError(e.message || "Could not reach server — showing estimates.");
+    }
+
+    clearInterval(iv);
+    setProgress(100);
+    setTimeout(() => setStep("results"), 300);
   };
 
   const amt = parseFloat(billAmount) || 0;
@@ -2393,6 +2556,22 @@ function BillAnalyzerPage({ onBack, lang }) {
   const overpayPct =
     avgBill > 0 ? Math.round((overpaying / avgBill) * 100) : 0;
   const alts = getAlternatives(billType, overpaying, lang);
+
+  // Build display alternatives from real API data when available
+  const displayAlts = apiProviders && apiProviders.length > 0
+    ? apiProviders.map((p: any, i: number) => {
+        if (billType === "energy") {
+          const saving = Math.max(0, Math.round(p.monthly_savings || 0));
+          return { name: p.provider_name, saving, icon: "⚡", reliability: 97, eco: 85, desc: `${p.service_area} · $${p.rate_per_kwh?.toFixed(4)}/kWh · Est. $${p.estimated_bill?.toFixed(0)}/mo`, why: `Switching saves you ~$${saving}/month ($${(saving * 12).toFixed(0)}/year).`, pros: [`~$${p.estimated_bill?.toFixed(0)}/mo estimated bill`, `$${p.rate_per_kwh?.toFixed(4)} per kWh`], cons: i === 0 ? [] : ["May require enrollment"] };
+        } else if (billType === "water") {
+          const saving = Math.max(0, Math.round(p.monthly_savings || 0));
+          return { name: p.provider_name, saving, icon: "💧", reliability: 96, eco: 80, desc: `${p.service_area} · $${p.rate_per_gallon?.toFixed(4)}/gal · Est. $${p.estimated_bill?.toFixed(0)}/mo`, why: `Switching saves you ~$${saving}/month ($${(saving * 12).toFixed(0)}/year).`, pros: [`~$${p.estimated_bill?.toFixed(0)}/mo estimated bill`], cons: [] };
+        } else {
+          const saving = Math.max(0, Math.round(amt - (p.monthly_cost || 0)));
+          return { name: p.provider, saving, icon: "📱", reliability: 95, eco: 70, desc: `$${p.monthly_cost?.toFixed(0)}/mo · Score: ${p.score?.toFixed(2)}`, why: `Better value per GB at $${p.monthly_cost?.toFixed(0)}/month.`, pros: [`$${p.monthly_cost?.toFixed(0)}/mo flat`], cons: [] };
+        }
+      })
+    : alts;
   const analyzeLabels = [
     t.readingBill,
     t.comparingAvg,
@@ -2585,10 +2764,24 @@ function BillAnalyzerPage({ onBack, lang }) {
                   />
                 </div>
               </div>
+              {billType !== "phone" && (
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1.5 font-medium">
+                    Address or ZIP Code
+                  </label>
+                  <input
+                    type="text"
+                    value={billAddress}
+                    onChange={(e) => setBillAddress(e.target.value)}
+                    placeholder="e.g. Atlanta, GA or 30301"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              )}
             </div>
             <button
               onClick={analyze}
-              disabled={!billAmount}
+              disabled={!billAmount && !uploadedFile}
               className="mt-6 w-full py-4 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold text-lg rounded-2xl hover:shadow-2xl hover:shadow-[#FF6B35]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
             >
               <Zap size={20} className="fill-white" />{" "}
@@ -2682,6 +2875,8 @@ function BillAnalyzerPage({ onBack, lang }) {
                   setBillAmount("");
                   setUploadedFile(null);
                   setExpanded(null);
+                  setApiProviders(null);
+                  setApiError(null);
                 }}
                 className="flex items-center gap-2 text-gray-400 hover:text-white text-sm border border-gray-700 rounded-xl px-4 py-2 transition-colors"
               >
@@ -2771,11 +2966,18 @@ function BillAnalyzerPage({ onBack, lang }) {
                 {t.recommendedAlts}
               </h2>
               <p className="text-gray-500 text-sm">
-                {t.ecoFriendly}
+                {apiProviders && apiProviders.length > 0
+                  ? `${apiProviders.length} providers found for your area`
+                  : t.ecoFriendly}
               </p>
+              {apiError && (
+                <div className="mt-3 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-yellow-400 text-sm">
+                  ⚠ {apiError}
+                </div>
+              )}
             </div>
             <div className="space-y-4">
-              {alts.map((alt, i) => (
+              {displayAlts.map((alt, i) => (
                 <div
                   key={i}
                   className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition-colors"
@@ -3172,6 +3374,361 @@ function PlansPage({ onBack, lang }) {
   );
 }
 
+// ─── SOLAR CALCULATOR PAGE ────────────────────────────────────────
+function SolarCalculatorPage({ onBack, lang }) {
+  const isEs = lang === "es";
+  const [address, setAddress] = useState("Atlanta, GA");
+  const [monthlyKwh, setMonthlyKwh] = useState("850");
+  const [numPanels, setNumPanels] = useState("10");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<api.SolarRes | null>(null);
+
+  const calculate = async () => {
+    const kwh = parseFloat(monthlyKwh) || 850;
+    const panels = parseInt(numPanels) || 10;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await api.calculateSolar({
+        address,
+        monthly_kwh: kwh,
+        num_panels: panels,
+        current_rate: 0.12,
+      });
+      setResult(res);
+    } catch (e: any) {
+      setError(e.message || (isEs ? "Error al calcular." : "Calculation failed."));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="border-b border-gray-800 px-6 py-4 flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-gray-400 hover:text-[#FF6B35] transition-colors text-sm font-medium"
+        >
+          <ArrowLeft size={16} /> {isEs ? "Atrás" : "Back"}
+        </button>
+        <div className="w-px h-5 bg-gray-700" />
+        <div className="flex items-center gap-2">
+          <Sun size={16} className="text-[#FFD700]" />
+          <span className="font-semibold">{isEs ? "Calculadora Solar" : "Solar Calculator"}</span>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="mb-8">
+          <h1 className="text-4xl font-black mb-3">
+            {isEs ? "¿Cuánto puedes" : "How much can you"}{" "}
+            <span className="text-[#FFD700]">{isEs ? "ahorrar" : "save"}</span>{" "}
+            {isEs ? "con paneles solares?" : "with solar panels?"}
+          </h1>
+          <p className="text-gray-400">
+            {isEs
+              ? "Calcula el ahorro estimado y el retorno de inversión para un sistema solar en tu hogar."
+              : "Estimate your savings and return on investment for a rooftop solar system."}
+          </p>
+        </div>
+
+        {!result ? (
+          <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 space-y-6">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Dirección / Ciudad" : "Address / City"}
+              </label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Atlanta, GA"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Consumo Mensual (kWh)" : "Monthly Usage (kWh)"}
+              </label>
+              <input
+                type="number"
+                value={monthlyKwh}
+                onChange={(e) => setMonthlyKwh(e.target.value)}
+                placeholder="850"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors"
+              />
+              <p className="text-xs text-gray-600 mt-1">{isEs ? "Promedio Atlanta: 850 kWh/mes" : "Atlanta avg: 850 kWh/month"}</p>
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Número de Paneles" : "Number of Panels"}
+              </label>
+              <input
+                type="number"
+                value={numPanels}
+                onChange={(e) => setNumPanels(e.target.value)}
+                placeholder="10"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors"
+              />
+              <p className="text-xs text-gray-600 mt-1">{isEs ? "Cada panel: 400W" : "Each panel: 400W"}</p>
+            </div>
+            {error && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+            <button
+              onClick={calculate}
+              disabled={loading}
+              className="w-full py-4 bg-[#FFD700] text-black font-black rounded-2xl hover:bg-yellow-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                  {isEs ? "Calculando…" : "Calculating…"}
+                </>
+              ) : (
+                <>
+                  <Sun size={16} />
+                  {isEs ? "Calcular Ahorro Solar" : "Calculate Solar Savings"}
+                </>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/5 border border-yellow-500/20 rounded-3xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Sun size={24} className="text-[#FFD700]" />
+                <h2 className="text-2xl font-black">{isEs ? "Tu Estimado Solar" : "Your Solar Estimate"}</h2>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Costo Inicial (con crédito 30%)" : "Upfront Cost (after 30% credit)"}</p>
+                  <p className="text-3xl font-black text-white">${result.upfront_cost.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Ahorro Anual" : "Annual Savings"}</p>
+                  <p className="text-3xl font-black text-green-400">${result.annual_savings.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Paneles" : "Panels"}</p>
+                  <p className="text-2xl font-black text-white">{result.num_panels}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Generación Mensual" : "Monthly Generation"}</p>
+                  <p className="text-2xl font-black text-white">{result.monthly_kwh_generated} kWh</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
+                <p className="text-xs text-gray-500 mb-2">{isEs ? "Equilibrio" : "Break-Even"}</p>
+                <p className="text-2xl font-black text-[#FF6B35]">{result.break_even_years} {isEs ? "años" : "yrs"}</p>
+              </div>
+              <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
+                <p className="text-xs text-gray-500 mb-2">{isEs ? "Ahorro 10 años" : "10-yr Savings"}</p>
+                <p className="text-2xl font-black text-green-400">${result.total_savings_10yr.toLocaleString()}</p>
+              </div>
+              <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
+                <p className="text-xs text-gray-500 mb-2">{isEs ? "ROI 10 años" : "10-yr ROI"}</p>
+                <p className="text-2xl font-black text-[#FFD700]">{result.roi_10yr}%</p>
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+              <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider">{isEs ? "Nota" : "Note"}</p>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                {isEs
+                  ? "Estimado basado en 4.5 horas pico de sol/día (Atlanta), crédito fiscal federal del 30%, y degradación anual del 0.5%. Los costos reales varían según instalador y condiciones del techo."
+                  : "Estimates assume 4.5 peak sun hours/day (Atlanta), 30% federal tax credit, and 0.5% annual panel degradation. Actual costs vary by installer and roof conditions."}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setResult(null)}
+              className="w-full py-3 border border-gray-700 rounded-2xl text-gray-400 hover:text-white hover:border-gray-500 transition-colors text-sm"
+            >
+              ← {isEs ? "Calcular de nuevo" : "Calculate again"}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── WATER SOLUTIONS PAGE ─────────────────────────────────────────
+function WaterSolutionsPage({ onBack, lang }) {
+  const isEs = lang === "es";
+  const [address, setAddress] = useState("Atlanta, GA");
+  const [monthlyGallons, setMonthlyGallons] = useState("3200");
+  const [currentBill, setCurrentBill] = useState("70");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<api.RainwaterRes | null>(null);
+
+  const calculate = async () => {
+    const gallons = parseFloat(monthlyGallons) || 3200;
+    const bill = parseFloat(currentBill) || 70;
+    const rate = gallons > 0 ? bill / gallons : 0.0075;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await api.calculateRainwater({
+        address,
+        monthly_gallons: gallons,
+        current_bill_amount: bill,
+        current_rate_per_gallon: rate,
+      });
+      setResult(res);
+    } catch (e: any) {
+      setError(e.message || (isEs ? "Error al calcular." : "Calculation failed."));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="border-b border-gray-800 px-6 py-4 flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-gray-400 hover:text-[#FF6B35] transition-colors text-sm font-medium"
+        >
+          <ArrowLeft size={16} /> {isEs ? "Atrás" : "Back"}
+        </button>
+        <div className="w-px h-5 bg-gray-700" />
+        <div className="flex items-center gap-2">
+          <Droplets size={16} className="text-blue-400" />
+          <span className="font-semibold">{isEs ? "Soluciones de Agua" : "Water Solutions"}</span>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="mb-8">
+          <h1 className="text-4xl font-black mb-3">
+            {isEs ? "Ahorra con" : "Save with"}{" "}
+            <span className="text-blue-400">{isEs ? "captación de agua de lluvia" : "rainwater harvesting"}</span>
+          </h1>
+          <p className="text-gray-400">
+            {isEs
+              ? "Estima cuánta agua puedes recolectar y cuánto puedes ahorrar en tu factura mensual."
+              : "Estimate how much water you can collect and how much you can save on your monthly water bill."}
+          </p>
+        </div>
+
+        {!result ? (
+          <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 space-y-6">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Dirección / Ciudad" : "Address / City"}
+              </label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Atlanta, GA"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Consumo Mensual (galones)" : "Monthly Usage (gallons)"}
+              </label>
+              <input
+                type="number"
+                value={monthlyGallons}
+                onChange={(e) => setMonthlyGallons(e.target.value)}
+                placeholder="3200"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+              />
+              <p className="text-xs text-gray-600 mt-1">{isEs ? "Promedio: ~3,200 gal/mes" : "Average: ~3,200 gal/month"}</p>
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5 font-medium uppercase tracking-wider">
+                {isEs ? "Factura Mensual Actual ($)" : "Current Monthly Bill ($)"}
+              </label>
+              <input
+                type="number"
+                value={currentBill}
+                onChange={(e) => setCurrentBill(e.target.value)}
+                placeholder="70"
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+              />
+            </div>
+            {error && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+            <button
+              onClick={calculate}
+              disabled={loading}
+              className="w-full py-4 bg-blue-500 text-white font-black rounded-2xl hover:bg-blue-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  {isEs ? "Calculando…" : "Calculating…"}
+                </>
+              ) : (
+                <>
+                  <Droplets size={16} />
+                  {isEs ? "Calcular Ahorro" : "Calculate Savings"}
+                </>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="bg-gradient-to-br from-blue-500/10 to-teal-500/5 border border-blue-500/20 rounded-3xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Droplets size={24} className="text-blue-400" />
+                <h2 className="text-2xl font-black">{isEs ? "Tu Estimado de Agua" : "Your Water Estimate"}</h2>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Galones Recolectados/mes" : "Gallons Collected/month"}</p>
+                  <p className="text-3xl font-black text-white">{result.estimated_gallons.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{isEs ? "Ahorro Mensual" : "Monthly Savings"}</p>
+                  <p className="text-3xl font-black text-green-400">${result.cost_offset.toFixed(2)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 text-center">
+              <p className="text-xs text-gray-500 mb-2 uppercase tracking-wider">{isEs ? "Período de Retorno (sistema ~$3,000)" : "Payback Period (for ~$3,000 system)"}</p>
+              <p className="text-4xl font-black text-blue-400">{result.payback_years} {isEs ? "años" : "years"}</p>
+            </div>
+
+            <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+              <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider">{isEs ? "Nota" : "Note"}</p>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                {isEs
+                  ? "Estimado basado en precipitación promedio de Atlanta (4.17 pulg/mes), techo de 1,200 pies², tanque de 1,500 galones, y eficiencia de captación del 85%."
+                  : "Estimate based on Atlanta average rainfall (4.17 in/month), 1,200 sq ft roof, 1,500-gallon tank, and 85% collection efficiency."}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setResult(null)}
+              className="w-full py-3 border border-gray-700 rounded-2xl text-gray-400 hover:text-white hover:border-gray-500 transition-colors text-sm"
+            >
+              ← {isEs ? "Calcular de nuevo" : "Calculate again"}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── INNER PAGE ───────────────────────────────────────────────────
 function InnerPage({ page, onBack, lang }) {
   const t = T[lang];
@@ -3186,7 +3743,11 @@ function InnerPage({ page, onBack, lang }) {
   if (page === "conservation")
     return <ConservationTipsPage onBack={onBack} lang={lang} />;
   if (page === "plans")
-  return <PlansPage onBack={onBack} lang={lang} />;
+    return <PlansPage onBack={onBack} lang={lang} />;
+  if (page === "solar")
+    return <SolarCalculatorPage onBack={onBack} lang={lang} />;
+  if (page === "water-solutions")
+    return <WaterSolutionsPage onBack={onBack} lang={lang} />;
   const data = t.pageData[page] || {
     title: page,
     icon: "📄",
@@ -3558,6 +4119,18 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
 
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("ca_user");
+    const token = api.getToken();
+    if (stored && token) {
+      try {
+        const u = JSON.parse(stored);
+        setUser({ email: u.email, name: u.first_name, ...u });
+      } catch {}
+    }
+  }, []);
+
   const handleNavigate = (page) => {
     if (page === "profile" && !user) {
       setShowLogin(true);
@@ -3600,6 +4173,7 @@ export default function App() {
         user={user}
         onBack={() => setCurrentPage("home")}
         onLogout={() => {
+          api.clearToken();
           setUser(null);
           setCurrentPage("home");
         }}
