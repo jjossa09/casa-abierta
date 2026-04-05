@@ -151,7 +151,6 @@ const T = {
         id: "water",
         label: "Water",
         dropdown: [
-          { label: "Water Solutions", page: "water-solutions" },
           { label: "Conservation Tips", page: "conservation" },
           {
             label: "Insert Bill",
@@ -164,7 +163,6 @@ const T = {
         id: "phone",
         label: "Phone",
         dropdown: [
-          { label: "Mobile Solutions", page: "mobile" },
           { label: "Plans", page: "plans" },
           {
             label: "Insert Bill",
@@ -329,10 +327,6 @@ const T = {
         id: "water",
         label: "Agua",
         dropdown: [
-          {
-            label: "Soluciones de Agua",
-            page: "water-solutions",
-          },
           { label: "Conservación", page: "conservation" },
           {
             label: "Insertar Factura",
@@ -345,7 +339,6 @@ const T = {
         id: "phone",
         label: "Teléfono",
         dropdown: [
-          { label: "Soluciones Móviles", page: "mobile" },
           { label: "Planes", page: "plans" },
           {
             label: "Insertar Factura",
@@ -3473,6 +3466,221 @@ function PlansPage({ onBack, lang }) {
   );
 }
 
+// ─── SOLAR SOLUTIONS PAGE ─────────────────────────────────────────
+function SolarSolutionsPage({ onBack, lang }) {
+  const isEs = lang === "es";
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="border-b border-gray-800 px-6 py-4 flex items-center gap-4">
+        <button onClick={onBack} className="flex items-center gap-2 text-gray-400 hover:text-[#FF6B35] transition-colors text-sm font-medium">
+          <ArrowLeft size={16} /> {isEs ? "Atrás" : "Back"}
+        </button>
+        <div className="w-px h-5 bg-gray-700" />
+        <span className="font-semibold">{isEs ? "Soluciones Solares" : "Solar Solutions"}</span>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        {/* Hero */}
+        <div className="mb-14 text-center">
+          <div className="text-6xl mb-6">☀️</div>
+          <h1 className="text-5xl font-black mb-4">
+            {isEs ? "Energía " : "Solar "}
+            <span className="bg-gradient-to-r from-[#FFD700] to-[#FF6B35] bg-clip-text text-transparent">
+              {isEs ? "Solar" : "Energy"}
+            </span>
+          </h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            {isEs
+              ? "El sol es la fuente de energía más abundante del planeta. Convertirlo en electricidad para tu hogar es más accesible que nunca."
+              : "The sun is the most abundant energy source on the planet. Converting it into electricity for your home is more accessible than ever."}
+          </p>
+        </div>
+
+        {/* Why Solar */}
+        <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 mb-8">
+          <h2 className="text-2xl font-black text-white mb-4">
+            {isEs ? "¿Por qué cambiar a solar?" : "Why switch to solar?"}
+          </h2>
+          <p className="text-gray-300 leading-relaxed mb-4">
+            {isEs
+              ? "La energía solar fotovoltaica convierte la luz del sol directamente en electricidad sin combustión, sin emisiones y sin partes móviles. Una vez instalado, el sistema genera electricidad gratis durante 25 a 30 años. El hogar promedio en EE.UU. puede reducir su factura eléctrica entre un 70% y un 100% con un sistema solar bien dimensionado."
+              : "Photovoltaic solar energy converts sunlight directly into electricity with no combustion, no emissions, and no moving parts. Once installed, the system generates free electricity for 25 to 30 years. The average U.S. home can reduce its electric bill by 70% to 100% with a properly sized solar system."}
+          </p>
+          <p className="text-gray-300 leading-relaxed">
+            {isEs
+              ? "Según la Agencia Internacional de Energía (IEA), la solar es ahora la fuente de electricidad más barata de la historia. El costo de los paneles solares ha caído más del 90% en la última década, pasando de $76/vatio en 1977 a menos de $0.30/vatio en 2023."
+              : "According to the International Energy Agency (IEA), solar is now the cheapest source of electricity in history. The cost of solar panels has dropped more than 90% in the last decade, falling from $76/watt in 1977 to under $0.30/watt in 2023."}
+          </p>
+        </div>
+
+        {/* Key Benefits */}
+        <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 mb-8">
+          <h2 className="text-2xl font-black text-white mb-6">
+            {isEs ? "Beneficios clave" : "Key benefits"}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              {
+                icon: "💰",
+                title: isEs ? "Ahorro en la factura" : "Bill savings",
+                desc: isEs
+                  ? "El hogar solar promedio ahorra $1,500 al año en electricidad. En estados con alta irradiación como California, Texas o Florida, el ahorro puede superar $2,500 al año."
+                  : "The average solar home saves $1,500/year on electricity. In high-sun states like California, Texas, or Florida, savings can exceed $2,500/year.",
+              },
+              {
+                icon: "📈",
+                title: isEs ? "Valor de la propiedad" : "Home value increase",
+                desc: isEs
+                  ? "Un estudio de Zillow encontró que los hogares con paneles solares se venden un 4.1% más que casas similares sin solar, lo que equivale a unos $9,274 en el precio medio de una vivienda."
+                  : "A Zillow study found homes with solar panels sell for 4.1% more than comparable homes without solar, equivalent to about $9,274 on a median-priced home.",
+              },
+              {
+                icon: "🌱",
+                title: isEs ? "Impacto ambiental" : "Environmental impact",
+                desc: isEs
+                  ? "Un sistema solar residencial típico de 6 kW evita la emisión de unas 4.8 toneladas de CO₂ al año, el equivalente a plantar 115 árboles o no conducir durante 11,000 millas."
+                  : "A typical 6 kW residential solar system prevents about 4.8 tons of CO₂ emissions per year, equivalent to planting 115 trees or not driving for 11,000 miles.",
+              },
+              {
+                icon: "🔒",
+                title: isEs ? "Protección contra alzas" : "Rate hike protection",
+                desc: isEs
+                  ? "Las tarifas eléctricas han subido en promedio un 2.9% anual durante la última década. Con solar, la mayor parte de tu electricidad tiene costo cero, protegiéndote de futuros aumentos de tarifas."
+                  : "Electricity rates have risen an average of 2.9% per year over the last decade. With solar, most of your electricity costs nothing, shielding you from future rate increases.",
+              },
+              {
+                icon: "⚡",
+                title: isEs ? "Independencia energética" : "Energy independence",
+                desc: isEs
+                  ? "Combinado con una batería de almacenamiento, un sistema solar puede mantenerte encendido durante apagones, tormentas o emergencias de la red eléctrica."
+                  : "Combined with battery storage, a solar system can keep you powered during grid outages, storms, or grid emergencies.",
+              },
+              {
+                icon: "🏠",
+                title: isEs ? "Sin costo de instalación" : "Zero upfront options",
+                desc: isEs
+                  ? "Con los programas de arrendamiento solar y acuerdos de compra de energía (PPA), puedes instalar paneles con $0 de adelanto y empezar a ahorrar desde el primer mes."
+                  : "With solar lease programs and power purchase agreements (PPAs), you can install panels with $0 down and start saving from month one.",
+              },
+            ].map((b, i) => (
+              <div key={i} className="flex gap-4 p-4 bg-[#0a0a0a] rounded-2xl border border-gray-800">
+                <div className="text-3xl flex-shrink-0">{b.icon}</div>
+                <div>
+                  <p className="font-bold text-white mb-1">{b.title}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed">{b.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Types of Solar */}
+        <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 mb-8">
+          <h2 className="text-2xl font-black text-white mb-6">
+            {isEs ? "Tipos de soluciones solares" : "Types of solar solutions"}
+          </h2>
+          <div className="space-y-5">
+            {[
+              {
+                title: isEs ? "Paneles en el techo (Rooftop Solar)" : "Rooftop Solar Panels",
+                desc: isEs
+                  ? "El método más común. Se instalan paneles fotovoltaicos directamente sobre el techo de tu casa. Un sistema típico de 6–8 kW cuesta entre $15,000 y $25,000 antes de incentivos, y entre $10,500 y $17,500 después del crédito fiscal federal del 30%. El período de recuperación promedio es de 6 a 10 años."
+                  : "The most common method. Photovoltaic panels are installed directly on your home's roof. A typical 6–8 kW system costs $15,000–$25,000 before incentives, and $10,500–$17,500 after the 30% federal tax credit. Average payback period is 6–10 years.",
+              },
+              {
+                title: isEs ? "Solar Comunitario" : "Community Solar",
+                desc: isEs
+                  ? "Compras o arrendas una parte de una granja solar local y recibes créditos en tu factura eléctrica. Ideal si vives en un apartamento, tienes un techo con sombra o no quieres instalar paneles. Los ahorros típicos son del 5 al 15% en la factura mensual sin ninguna instalación."
+                  : "You buy or lease a share of a local solar farm and receive credits on your electric bill. Ideal if you rent, have a shaded roof, or don't want installation. Typical savings are 5–15% on your monthly bill with no installation required.",
+              },
+              {
+                title: isEs ? "Arrendamiento Solar / PPA" : "Solar Lease / PPA",
+                desc: isEs
+                  ? "Una empresa instala paneles en tu techo sin costo inicial. Tú pagas una tarifa mensual fija (arrendamiento) o compras la electricidad generada a una tarifa reducida (PPA). No obtienes los créditos fiscales, pero no hay riesgo financiero ni mantenimiento para ti."
+                  : "A company installs panels on your roof at no upfront cost. You pay a fixed monthly fee (lease) or buy the generated electricity at a reduced rate (PPA). You don't get the tax credits, but there's no financial risk or maintenance responsibility for you.",
+              },
+              {
+                title: isEs ? "Solar + Batería" : "Solar + Battery Storage",
+                desc: isEs
+                  ? "La combinación más poderosa. Los paneles generan energía durante el día, la batería la almacena para usarla en la noche o durante apagones. Con este sistema puedes alcanzar independencia energética casi total. El costo adicional de la batería (Tesla Powerwall: ~$10,000 instalado) puede cubrirse con el crédito fiscal federal del 30%."
+                  : "The most powerful combination. Panels generate energy during the day, the battery stores it for use at night or during outages. With this setup you can achieve near-total energy independence. The added battery cost (Tesla Powerwall: ~$10,000 installed) can be offset by the 30% federal tax credit.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="border border-gray-700 rounded-2xl p-5">
+                <p className="font-bold text-[#FFD700] mb-2">{item.title}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Incentives */}
+        <div className="bg-[#111] border border-gray-800 rounded-3xl p-8 mb-8">
+          <h2 className="text-2xl font-black text-white mb-4">
+            {isEs ? "Incentivos y créditos fiscales" : "Incentives & tax credits"}
+          </h2>
+          <div className="space-y-4">
+            {[
+              {
+                label: isEs ? "Crédito Fiscal Federal (ITC) — 30%" : "Federal Investment Tax Credit (ITC) — 30%",
+                desc: isEs
+                  ? "El gobierno federal te devuelve el 30% del costo total de instalación de tu sistema solar como crédito en tu declaración de impuestos. Para un sistema de $20,000, eso son $6,000 de vuelta. Disponible hasta 2032."
+                  : "The federal government returns 30% of your total solar installation cost as a credit on your tax return. On a $20,000 system, that's $6,000 back. Available through 2032.",
+                color: "text-green-400",
+              },
+              {
+                label: isEs ? "Exenciones de impuesto a la propiedad" : "Property tax exemptions",
+                desc: isEs
+                  ? "Más de 36 estados eximen el valor añadido por los paneles solares del impuesto a la propiedad. Esto significa que aunque el valor de tu casa suba, tu impuesto predial no aumenta por el sistema solar."
+                  : "More than 36 states exempt the added value of solar panels from property taxes. This means even though your home value rises, your property tax does not increase because of the solar system.",
+                color: "text-blue-400",
+              },
+              {
+                label: isEs ? "Exenciones de impuesto sobre ventas" : "Sales tax exemptions",
+                desc: isEs
+                  ? "Muchos estados no cobran impuesto sobre ventas en la compra de equipos solares. En estados como Nueva York o Florida, esto puede ahorrarte entre $1,000 y $2,000 adicionales."
+                  : "Many states charge no sales tax on solar equipment purchases. In states like New York or Florida, this can save you an additional $1,000–$2,000.",
+                color: "text-yellow-400",
+              },
+              {
+                label: isEs ? "Medición neta (Net Metering)" : "Net Metering",
+                desc: isEs
+                  ? "Cuando tus paneles generan más electricidad de la que usas, el excedente se vende a la red y recibes créditos en tu factura. En muchos estados, estos créditos se aplican dólar por dólar, reduciendo tu factura a prácticamente cero."
+                  : "When your panels generate more electricity than you use, the surplus is sold back to the grid and you receive bill credits. In many states, these credits apply dollar for dollar, reducing your bill to near zero.",
+                color: "text-orange-400",
+              },
+            ].map((item, i) => (
+              <div key={i} className="border border-gray-700 rounded-2xl p-5">
+                <p className={`font-bold mb-2 ${item.color}`}>{item.label}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { val: "30%", label: isEs ? "Crédito fiscal federal" : "Federal tax credit", color: "text-yellow-400" },
+            { val: "$1,500", label: isEs ? "Ahorro promedio/año" : "Average savings/year", color: "text-green-400" },
+            { val: "25–30", label: isEs ? "Años de vida útil" : "Year system lifespan", color: "text-blue-400" },
+            { val: "4.1%", label: isEs ? "Aumento valor del hogar" : "Home value increase", color: "text-[#FF6B35]" },
+          ].map((s, i) => (
+            <div key={i} className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
+              <p className={`text-3xl font-black mb-1 ${s.color}`}>{s.val}</p>
+              <p className="text-xs text-gray-500">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={onBack} className="w-full py-3 border border-gray-700 rounded-xl text-gray-300 hover:text-white hover:border-gray-500 transition-colors text-sm">
+          ← {isEs ? "Atrás" : "Back"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── INNER PAGE ───────────────────────────────────────────────────
 function InnerPage({ page, onBack, lang }) {
   const t = T[lang];
@@ -3487,7 +3695,9 @@ function InnerPage({ page, onBack, lang }) {
   if (page === "conservation")
     return <ConservationTipsPage onBack={onBack} lang={lang} />;
   if (page === "plans")
-  return <PlansPage onBack={onBack} lang={lang} />;
+    return <PlansPage onBack={onBack} lang={lang} />;
+  if (page === "solar")
+    return <SolarSolutionsPage onBack={onBack} lang={lang} />;
   const data = t.pageData[page] || {
     title: page,
     icon: "📄",
