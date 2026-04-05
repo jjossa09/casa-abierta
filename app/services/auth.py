@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
+import bcrypt
 from jose import jwt
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.schemas.user import RegisterReq, LoginReq
@@ -9,15 +9,12 @@ SECRET_KEY = "change-me-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
 
 
 def create_access_token(data: dict) -> str:
@@ -29,11 +26,14 @@ def create_access_token(data: dict) -> str:
 
 def create_user(db: Session, payload: RegisterReq) -> User:
     user = User(
+        first_name=payload.first_name,
+        last_name=payload.last_name,
+        address=payload.address,
         email=payload.email,
         password=hash_password(payload.password),
-        zip_code=payload.zip_code,
+        zip_code="",
+        house_sqft=0,
         language=payload.language,
-        housing_type=payload.housing_type,
     )
     db.add(user)
     db.commit()

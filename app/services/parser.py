@@ -33,15 +33,19 @@ def parse_bill(raw_text: str, bill_type: str) -> dict:
 # ---------------------------------------------------------------------------
 
 def _parse_energy(text: str) -> dict:
+    usage_amount = _find_float(r"([\d,]+(?:\.\d+)?)\s*kWh", text)
+    amount_due = _find_amount_due(text)
+    rate_per_unit = _find_float(r"\$?\s*(0\.\d{3,4})\s*(?:per\s*)?kWh", text)
     return {
         "bill_type":      "energy",
         "provider_name":  _find_provider(text, KNOWN_ENERGY_PROVIDERS),
         "account_number": _find(r"(?i)account\s*(?:no|number|#)?\s*[:\-]?\s*(\d[\d\-]{4,})", text),
         "billing_period": _find(r"(?i)(?:billing|service)\s*period[:\s]+([A-Za-z0-9\s,/\-]+?)(?:\n|$)", text),
-        "usage_amount":   _find_float(r"([\d,]+(?:\.\d+)?)\s*kWh", text),
+        "usage_amount":   usage_amount,
         "usage_unit":     "kWh",
-        "rate_per_unit":  _find_float(r"\$?\s*(0\.\d{3,4})\s*(?:per\s*)?kWh", text),
-        "amount_due":     _find_amount_due(text),
+        "rate_per_unit":  rate_per_unit,
+        "effective_rate": _effective_rate(amount_due, usage_amount, rate_per_unit),
+        "amount_due":     amount_due,
         "raw_text":       text,
     }
 
@@ -51,15 +55,18 @@ def _parse_energy(text: str) -> dict:
 # ---------------------------------------------------------------------------
 
 def _parse_water(text: str) -> dict:
+    usage_amount = _find_water_usage(text)
+    amount_due = _find_amount_due(text)
     return {
         "bill_type":      "water",
         "provider_name":  _find_provider(text, KNOWN_WATER_PROVIDERS),
         "account_number": _find(r"(?i)account\s*(?:no|number|#)?\s*[:\-]?\s*(\d[\d\-]{4,})", text),
         "billing_period": _find(r"(?i)(?:billing|service)\s*period[:\s]+([A-Za-z0-9\s,/\-]+?)(?:\n|$)", text),
-        "usage_amount":   _find_water_usage(text),
+        "usage_amount":   usage_amount,
         "usage_unit":     "gallons",
         "rate_per_unit":  None,   # rarely printed on water bills
-        "amount_due":     _find_amount_due(text),
+        "effective_rate": _effective_rate(amount_due, usage_amount),
+        "amount_due":     amount_due,
         "raw_text":       text,
     }
 
@@ -120,3 +127,11 @@ def _find_provider(text: str, known_providers: list):
         if name.lower() in text.lower():
             return name
     return None
+
+
+def _effective_rate(amount_due: float | None, usage_amount: float | None, explicit_rate: float | None = None):
+    if explicit_rate is not None:
+        return explicit_rate
+    if amount_due is None or usage_amount in (None, 0):
+        return None
+    return round(amount_due / usage_amount, 6)

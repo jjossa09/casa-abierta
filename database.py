@@ -13,6 +13,15 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
+def run_startup_migrations():
+    with engine.begin() as conn:
+        user_columns = {
+            row[1] for row in conn.exec_driver_sql("PRAGMA table_info(users)")
+        }
+        if user_columns and "address" not in user_columns:
+            conn.exec_driver_sql("ALTER TABLE users ADD COLUMN address VARCHAR")
+
+
 def get_db():
     db = SessionLocal()
     try:

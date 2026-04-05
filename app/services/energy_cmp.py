@@ -1,35 +1,30 @@
-from sqlalchemy.orm import Session
-from app.models.provider import Provider
 from app.schemas.energy import CompareReq
+from app.services.provider_lookup import lookup_energy_providers
 
 
-def compare_energy_providers(db: Session, payload: CompareReq) -> list:
-    """
-    Query all electricity providers that serve the user's ZIP code,
-    then estimate what their bill would be at each provider's rate.
-    Returns a list sorted from cheapest to most expensive.
-    """
-    providers = (
-        db.query(Provider)
-        .filter(
-            Provider.type == "electricity",
-            Provider.zip_codes.contains(payload.zip_code)
-        )
-        .all()
+def compare_energy_providers(payload: CompareReq) -> list[dict]:
+    providers = lookup_energy_providers(
+        zip_code=payload.zip_code,
+        address=payload.address,
+        lat=payload.lat,
+        lon=payload.lon,
     )
-
     results = []
-    for p in providers:
-        estimated_bill = round(payload.current_usage_kwh * p.rate_per_unit, 2)
+    for provider in providers:
+        estimated_bill = round(payload.current_usage_kwh * provider["rate"], 2)
+        monthly_savings = round(payload.current_bill_amount - estimated_bill, 2)
         results.append({
-            "id":                 p.id,
-            "name":               p.name,
-            "rate_per_kwh":       p.rate_per_unit,
-            "estimated_bill":     estimated_bill,
-            "avg_monthly_bill":   p.avg_monthly_bill,
-            "service_area":       p.service_area_label,
-            "website":            p.website,
-            "notes":              p.notes,
+            "provider_id": provider["provider_id"],
+            "provider_name": provider["provider_name"],
+            "rate_per_kwh": provider["rate"],
+            "estimated_bill": estimated_bill,
+            "current_bill": payload.current_bill_amount,
+            "current_rate_per_kwh": payload.current_rate_per_kwh,
+            "monthly_savings": monthly_savings,
+            "annual_savings": round(monthly_savings * 12, 2),
+            "service_area": provider["service_area"],
+            "source": provider["source"],
+            "metadata": provider["metadata"],
         })
 
     results.sort(key=lambda x: x["estimated_bill"])

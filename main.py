@@ -1,9 +1,15 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import app.models
+from database import Base, engine, run_startup_migrations
+
+load_dotenv()
+
 from app.routers import auth, bills, energy, water, phone
-from database import Base, engine
 
 Base.metadata.create_all(bind=engine)
+run_startup_migrations()
 
 app = FastAPI(title="Casa Abierta API")
 
@@ -28,3 +34,8 @@ app.include_router(phone.router)
 @app.get("/")
 def root():
     return {"message": "Casa Abierta API is running"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

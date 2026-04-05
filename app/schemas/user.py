@@ -2,11 +2,12 @@ from pydantic import BaseModel, EmailStr
 
 
 class RegisterReq(BaseModel):
+    first_name: str
+    last_name: str
     email: EmailStr
     password: str
-    zip_code: str
+    address: str
     language: str = "en"
-    housing_type: str
 
 
 class LoginReq(BaseModel):
@@ -16,10 +17,11 @@ class LoginReq(BaseModel):
 
 class UserRes(BaseModel):
     id: int
+    first_name: str
+    last_name: str
     email: EmailStr
-    zip_code: str
+    address: str
     language: str
-    housing_type: str
 
     class Config:
         from_attributes = True

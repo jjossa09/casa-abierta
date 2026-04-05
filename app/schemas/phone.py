@@ -8,6 +8,9 @@ class PhoneCompareReq(BaseModel):
 
 class PhoneRes(BaseModel):
     provider: str
-    plan_name: str
     monthly_cost: float
     score: float
+
+
+class PhoneCompareRes(BaseModel):
+    plans: list[PhoneRes]

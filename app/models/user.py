@@ -15,11 +15,12 @@ class User(Base):
     first_name    = Column(String, nullable=False)
     last_name     = Column(String, nullable=False)
 
-    # --- Location & home ---
-    zip_code      = Column(String(10), nullable=False)
-    house_sqft    = Column(Integer, nullable=False)
-    # house_sqft is required for solar (panel count) and
-    # rainwater (roof collection area) calculations.
+    # --- Location ---
+    address       = Column(String, nullable=True)
+
+    # Legacy compatibility fields kept for the current SQLite schema.
+    zip_code      = Column(String(10), nullable=False, default="")
+    house_sqft    = Column(Integer, nullable=False, default=0)
 
     # --- Energy bill ---
     energy_bill_amount  = Column(Float, nullable=True)  # $ per month
