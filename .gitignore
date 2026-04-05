@@ -6,3 +6,6 @@ __pycache__/
 app/**/__pycache__/
 *.pyc
 .codex/
+node_modules/
+casa_abierta.db
+*.db

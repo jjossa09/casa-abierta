@@ -27,8 +27,11 @@ import {
   Clock,
   Battery,
   Waves,
+  MapPin,
+  UserPlus,
 } from "lucide-react";
-import logo from "figma:asset/6e16dc174382cc95dd21fce17c3cc0b68d402e35.png";
+import logo from "../assets/6e16dc174382cc95dd21fce17c3cc0b68d402e35.png";
+import * as api from "./api";
 
 const T = {
   en: {
@@ -475,17 +478,70 @@ function LoginModal({ onClose, onLogin }) {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
-    onLogin({ email, name: email.split("@")[0] });
-    onClose();
+    setLoading(true);
+    setError("");
+    try {
+      const data = await api.login(email, password);
+      onLogin({
+        email: data.user.email,
+        name: data.user.first_name,
+        first_name: data.user.first_name,
+        last_name: data.user.last_name,
+        address: data.user.address,
+        id: data.user.id,
+      });
+      onClose();
+    } catch (err: any) {
+      setError(err.message || "Login failed. Check your credentials.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!firstName || !lastName || !email || !password || !address) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      await api.register({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        address,
+      });
+      // Auto-login after registration
+      const data = await api.login(email, password);
+      onLogin({
+        email: data.user.email,
+        name: data.user.first_name,
+        first_name: data.user.first_name,
+        last_name: data.user.last_name,
+        address: data.user.address,
+        id: data.user.id,
+      });
+      onClose();
+    } catch (err: any) {
+      setError(err.message || "Registration failed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleForgot = () => {
@@ -594,18 +650,123 @@ function LoginModal({ onClose, onLogin }) {
             </div>
             <button
               onClick={handleLogin}
-              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all mb-3"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all mb-3 disabled:opacity-50"
             >
-              Sign In
+              {loading ? "Signing in…" : "Sign In"}
+            </button>
+            <button
+              onClick={() => {
+                setMode("register");
+                setError("");
+              }}
+              className="w-full py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-medium rounded-xl transition-colors text-sm mb-2"
+            >
+              Create Account
             </button>
             <button
               onClick={() => {
                 setMode("forgot");
                 setError("");
               }}
-              className="w-full py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-medium rounded-xl transition-colors text-sm"
+              className="w-full py-2 text-gray-500 hover:text-gray-300 transition-colors text-xs"
             >
               Forgot Password?
+            </button>
+          </>
+        )}
+
+        {mode === "register" && (
+          <>
+            <h2 className="text-2xl font-black text-white mb-1">
+              Create account
+            </h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Join Casa Abierta to track your bills and savings.
+            </p>
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+            <div className="space-y-3 mb-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1 font-medium">First name</label>
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => { setFirstName(e.target.value); setError(""); }}
+                    placeholder="Juan"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1 font-medium">Last name</label>
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => { setLastName(e.target.value); setError(""); }}
+                    placeholder="García"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1 font-medium">Email</label>
+                <div className="relative">
+                  <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(""); }}
+                    placeholder="you@example.com"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl pl-9 pr-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1 font-medium">Password</label>
+                <div className="relative">
+                  <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                    placeholder="••••••••"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl pl-9 pr-10 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                  <button type="button" onClick={() => setShowPass((p) => !p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                    {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1 font-medium">Address</label>
+                <div className="relative">
+                  <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => { setAddress(e.target.value); setError(""); }}
+                    placeholder="123 Main St, Atlanta, GA 30301"
+                    className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl pl-9 pr-4 py-3 text-white text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleRegister}
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg transition-all mb-3 disabled:opacity-50"
+            >
+              {loading ? "Creating account…" : "Create Account"}
+            </button>
+            <button
+              onClick={() => { setMode("login"); setError(""); }}
+              className="w-full py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-medium rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
+            >
+              <ArrowLeft size={14} /> Back to Sign In
             </button>
           </>
         )}
@@ -697,6 +858,16 @@ function LoginModal({ onClose, onLogin }) {
 
 // ─── PROFILE PAGE ──────────────────────────────────────────────────
 function ProfilePage({ user, onBack, onLogout }) {
+  const [bills, setBills] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.getBillHistory(20)
+      .then((data) => setBills(data.bills || []))
+      .catch(() => setBills([]))
+      .finally(() => setLoading(false));
+  }, []);
+
   const billTypeIcon = {
     energy: "⚡",
     water: "💧",
@@ -707,10 +878,18 @@ function ProfilePage({ user, onBack, onLogout }) {
     water: "Water",
     phone: "Phone",
   };
-  const totalSaved = mockBillHistory.reduce(
-    (s, b) => s + b.savings,
-    0,
-  );
+
+  const displayBills = bills.length > 0
+    ? bills.map((b: any) => ({
+        id: b.id,
+        type: b.bill_type,
+        provider: b.provider_name || "Unknown",
+        amount: b.amount_due || 0,
+        date: b.billing_period || "—",
+      }))
+    : mockBillHistory;
+
+  const totalBills = displayBills.length;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -751,7 +930,7 @@ function ProfilePage({ user, onBack, onLogout }) {
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
             <p className="text-3xl font-black text-[#FF6B35]">
-              {mockBillHistory.length}
+              {totalBills}
             </p>
             <p className="text-xs text-gray-500 mt-1 font-medium uppercase tracking-wider">
               Bills Analyzed
@@ -759,21 +938,18 @@ function ProfilePage({ user, onBack, onLogout }) {
           </div>
           <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
             <p className="text-3xl font-black text-green-400">
-              ${totalSaved}
+              ${displayBills.reduce((s, b) => s + (b.amount || 0), 0).toFixed(0)}
             </p>
             <p className="text-xs text-gray-500 mt-1 font-medium uppercase tracking-wider">
-              Total Saved
+              Total Tracked
             </p>
           </div>
           <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 text-center">
             <p className="text-3xl font-black text-blue-400">
-              $
-              {Math.round(
-                (totalSaved * 12) / mockBillHistory.length,
-              )}
+              {loading ? "…" : bills.length > 0 ? "Live" : "Demo"}
             </p>
             <p className="text-xs text-gray-500 mt-1 font-medium uppercase tracking-wider">
-              Avg/Year
+              Data Source
             </p>
           </div>
         </div>
@@ -783,19 +959,22 @@ function ProfilePage({ user, onBack, onLogout }) {
             <Clock size={16} className="text-[#FF6B35]" />
             <h2 className="text-lg font-bold">Bill History</h2>
           </div>
+          {loading ? (
+            <div className="text-center py-10 text-gray-500">Loading bills…</div>
+          ) : (
           <div className="space-y-3">
-            {mockBillHistory.map((bill) => (
+            {displayBills.map((bill) => (
               <div
                 key={bill.id}
                 className="bg-[#111] border border-gray-800 rounded-2xl p-5 flex items-center justify-between hover:border-gray-700 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#1a1a1a] flex items-center justify-center text-lg">
-                    {billTypeIcon[bill.type]}
+                    {billTypeIcon[bill.type] || "📄"}
                   </div>
                   <div>
                     <p className="font-semibold text-white">
-                      {billTypeLabel[bill.type]} —{" "}
+                      {billTypeLabel[bill.type] || bill.type} —{" "}
                       {bill.provider}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -805,15 +984,13 @@ function ProfilePage({ user, onBack, onLogout }) {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-white">
-                    ${bill.amount}
-                  </p>
-                  <p className="text-xs text-green-400 font-semibold">
-                    -${bill.savings} saved
+                    ${typeof bill.amount === 'number' ? bill.amount.toFixed(2) : bill.amount}
                   </p>
                 </div>
               </div>
             ))}
           </div>
+          )}
         </div>
       </div>
     </div>
@@ -2363,23 +2540,88 @@ function BillAnalyzerPage({ onBack, lang }) {
   const [progress, setProgress] = useState(0);
   const [expanded, setExpanded] = useState(null);
   const fileRef = useRef(null);
+  const [apiProviders, setApiProviders] = useState<any[]>([]);
+  const [uploadResult, setUploadResult] = useState<any>(null);
+  const [analyzeError, setAnalyzeError] = useState("");
 
-  const analyze = () => {
-    if (!billAmount) return;
+  const analyze = async () => {
+    if (!billAmount && !uploadedFile) return;
     setStep("analyzing");
     setProgress(0);
-    const iv = setInterval(
-      () =>
-        setProgress((p) => {
-          if (p >= 100) {
-            clearInterval(iv);
-            setStep("results");
-            return 100;
-          }
-          return p + 3;
-        }),
-      55,
-    );
+    setAnalyzeError("");
+    setApiProviders([]);
+
+    // Animate progress bar while we wait for the API
+    let p = 0;
+    const iv = setInterval(() => {
+      p = Math.min(p + 2, 85); // cap at 85% until API responds
+      setProgress(p);
+    }, 60);
+
+    try {
+      // Step 1: If there's an uploaded file and it's energy or water, send it
+      if (uploadedFile && (billType === "energy" || billType === "water")) {
+        try {
+          const parsed = await api.uploadBill(uploadedFile, billType);
+          setUploadResult(parsed);
+          // Auto-fill manual fields from parsed data
+          if (parsed.amount_due && !billAmount) setBillAmount(String(parsed.amount_due));
+          if (parsed.usage_amount && !billUsage) setBillUsage(String(parsed.usage_amount));
+          if (parsed.provider_name && !billProvider) setBillProvider(parsed.provider_name);
+        } catch (err) {
+          console.warn("File upload failed, continuing with manual data:", err);
+        }
+      }
+
+      // Step 2: Call comparison endpoint based on bill type
+      const amt = parseFloat(billAmount) || (uploadResult?.amount_due) || 0;
+      const usage = parseFloat(billUsage) || (uploadResult?.usage_amount) || 0;
+      const userAddress = api.getSavedUser()?.address || "";
+
+      if (billType === "energy" && amt > 0) {
+        const rate = usage > 0 ? amt / usage : 0.12;
+        try {
+          const result = await api.compareEnergy({
+            current_usage_kwh: usage || amt / 0.12,
+            current_bill_amount: amt,
+            current_rate_per_kwh: rate,
+            address: userAddress || undefined,
+            zip_code: userAddress ? undefined : "30060",
+          });
+          setApiProviders(result.providers || []);
+        } catch (err) {
+          console.warn("Energy compare failed:", err);
+        }
+      } else if (billType === "water" && amt > 0) {
+        const rate = usage > 0 ? amt / usage : 0.007;
+        try {
+          const result = await api.compareWater({
+            monthly_gallons: usage || amt / 0.007,
+            current_bill_amount: amt,
+            current_rate_per_gallon: rate,
+            address: userAddress || undefined,
+            zip_code: userAddress ? undefined : "30060",
+          });
+          setApiProviders(result.providers || []);
+        } catch (err) {
+          console.warn("Water compare failed:", err);
+        }
+      } else if (billType === "phone") {
+        const gb = parseFloat(billUsage) || 10;
+        try {
+          const result = await api.comparePhone({ monthly_gb: gb, num_lines: 1 });
+          setApiProviders(result.plans || []);
+        } catch (err) {
+          console.warn("Phone compare failed:", err);
+        }
+      }
+    } catch (err: any) {
+      setAnalyzeError(err.message || "Analysis failed");
+    } finally {
+      clearInterval(iv);
+      setProgress(100);
+      setTimeout(() => setStep("results"), 300);
+    }
   };
 
   const amt = parseFloat(billAmount) || 0;
@@ -2588,7 +2830,7 @@ function BillAnalyzerPage({ onBack, lang }) {
             </div>
             <button
               onClick={analyze}
-              disabled={!billAmount}
+              disabled={!billAmount && !uploadedFile}
               className="mt-6 w-full py-4 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold text-lg rounded-2xl hover:shadow-2xl hover:shadow-[#FF6B35]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
             >
               <Zap size={20} className="fill-white" />{" "}
@@ -2764,6 +3006,65 @@ function BillAnalyzerPage({ onBack, lang }) {
                   </span>{" "}
                   {t.extraPerMonth}
                 </p>
+              </div>
+            )}
+            {analyzeError && (
+              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-400 text-sm">
+                {analyzeError}
+              </div>
+            )}
+            {apiProviders.length > 0 && (
+              <div className="mb-8">
+                <div className="mb-4">
+                  <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
+                    <Zap size={18} className="text-[#FF6B35]" />
+                    {lang === "es" ? "Proveedores disponibles en tu área" : "Available Providers in Your Area"}
+                  </h2>
+                  <p className="text-gray-500 text-sm">
+                    {lang === "es" ? "Datos en tiempo real de proveedores locales." : "Live data from local providers."}
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  {apiProviders.map((prov, i) => (
+                    <div key={i} className="bg-[#111] border border-gray-800 rounded-2xl p-5 hover:border-gray-700 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center text-lg">
+                            {billType === "energy" ? "⚡" : billType === "water" ? "💧" : "📱"}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-white">
+                              {prov.provider_name || prov.provider}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {prov.service_area ? `Service area: ${prov.service_area}` : ""}
+                              {prov.source ? ` · Source: ${prov.source}` : ""}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          {prov.estimated_bill != null && (
+                            <p className="text-lg font-black text-white">${prov.estimated_bill}{t.perMonth}</p>
+                          )}
+                          {prov.monthly_cost != null && (
+                            <p className="text-lg font-black text-white">${prov.monthly_cost}{t.perMonth}</p>
+                          )}
+                          {prov.monthly_savings != null && prov.monthly_savings > 0 && (
+                            <p className="text-sm text-green-400 font-semibold">
+                              Save ${prov.monthly_savings}{t.perMonth}
+                            </p>
+                          )}
+                          {prov.annual_savings != null && prov.annual_savings > 0 && (
+                            <p className="text-xs text-gray-500">${prov.annual_savings}{t.perYear2}</p>
+                          )}
+                          {prov.rate_per_kwh != null && (
+                            <p className="text-xs text-gray-500">${prov.rate_per_kwh}/kWh</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             <div className="mb-4">
@@ -3558,12 +3859,26 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
 
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    const saved = api.getSavedUser();
+    if (saved) {
+      setUser(saved);
+    }
+  }, []);
+
   const handleNavigate = (page) => {
     if (page === "profile" && !user) {
       setShowLogin(true);
       return;
     }
     setCurrentPage(page);
+  };
+
+  const handleLogout = () => {
+    api.logout();
+    setUser(null);
+    setCurrentPage("home");
   };
 
   if (currentPage === "home")
@@ -3599,10 +3914,7 @@ export default function App() {
       <ProfilePage
         user={user}
         onBack={() => setCurrentPage("home")}
-        onLogout={() => {
-          setUser(null);
-          setCurrentPage("home");
-        }}
+        onLogout={handleLogout}
       />
     );
   return (
