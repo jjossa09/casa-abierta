@@ -100,7 +100,7 @@ const T = {
     ecoNote: "Environmental note:",
     ecoNoteText:
       "Switching to the top recommendation would reduce your carbon footprint by an estimated",
-    eqTrees: "— equivalent to planting 55 trees.",
+    eqTrees: "equivalent to planting 55 trees.",
     solar: "Solar",
     water2: "Water",
     mobile: "Mobile",
@@ -178,7 +178,7 @@ const T = {
       overview: {
         title: "Overview",
         icon: "🏠",
-        desc: "Welcome to Casa Abierta — your hub for sustainable community services combining energy, water, and connectivity to lower costs for every household.",
+        desc: "Welcome to Casa Abierta, your hub for sustainable community services combining energy, water, and connectivity to lower costs for every household.",
       },
       news: {
         title: "Latest News",
@@ -188,12 +188,12 @@ const T = {
       announcements: {
         title: "Announcements",
         icon: "📢",
-        desc: "Official announcements from the Casa Abierta team — service updates, rate changes, and community programs.",
+        desc: "Official announcements from the Casa Abierta team, service updates, rate changes, and community programs.",
       },
       solar: {
         title: "Solar Solutions",
         icon: "☀️",
-        desc: "Rooftop panels to community solar shares — flexible options that fit any home or budget with no large upfront investment.",
+        desc: "Rooftop panels to community solar shares, flexible options that fit any home or budget with no large upfront investment.",
       },
       "water-solutions": {
         title: "Water Solutions",
@@ -277,7 +277,7 @@ const T = {
     ecoNote: "Nota ambiental:",
     ecoNoteText:
       "Cambiar a la opción principal reduciría tu huella de carbono en aproximadamente",
-    eqTrees: "— equivalente a plantar 55 árboles.",
+    eqTrees: "equivalente a plantar 55 árboles.",
     solar: "Solar",
     water2: "Agua",
     mobile: "Móvil",
@@ -359,7 +359,7 @@ const T = {
       overview: {
         title: "Resumen",
         icon: "🏠",
-        desc: "Bienvenido a Casa Abierta — tu centro de servicios comunitarios sostenibles.",
+        desc: "Bienvenido a Casa Abierta, tu centro de servicios comunitarios sostenibles.",
       },
       news: {
         title: "Últimas Noticias",
@@ -974,7 +974,7 @@ function ProfilePage({ user, onBack, onLogout }) {
                   </div>
                   <div>
                     <p className="font-semibold text-white">
-                      {billTypeLabel[bill.type] || bill.type} —{" "}
+                      {billTypeLabel[bill.type] || bill.type},{" "}
                       {bill.provider}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -1026,8 +1026,8 @@ function MissionPage({ onBack, lang }) {
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {isEs
-              ? "Nacimos de la convicción de que ninguna familia — sin importar su idioma, su país de origen, o su nivel de ingresos — debería quedarse atrás en un mundo que cambia rápido."
-              : "We were born from the belief that no family — regardless of language, country of origin, or income level — should be left behind in a rapidly changing world."}
+              ? "Nacimos de la convicción de que ninguna familia, sin importar su idioma, su país de origen, o su nivel de ingresos, debería quedarse atrás en un mundo que cambia rápido."
+              : "We were born from the belief that no family, regardless of language, country of origin, or income level, should be left behind in a rapidly changing world."}
           </p>
         </div>
 
@@ -1040,7 +1040,7 @@ function MissionPage({ onBack, lang }) {
                 : "Community First",
               desc: isEs
                 ? "Trabajamos directamente con familias inmigrantes y comunidades desatendidas, siendo su guía de confianza en un sistema de servicios públicos complejo y, a veces, injusto."
-                : "We work directly with immigrant families and underserved communities, serving as their trusted guide through a complex — and sometimes unfair — utilities system.",
+                : "We work directly with immigrant families and underserved communities, serving as their trusted guide through a complex, and sometimes unfair, utilities system.",
             },
             {
               icon: "💡",
@@ -1049,7 +1049,7 @@ function MissionPage({ onBack, lang }) {
                 : "Knowledge is Power",
               desc: isEs
                 ? "Muchas familias no saben que existen opciones mejores. Casa Abierta traduce la información técnica en decisiones claras: en tu idioma, a tu ritmo, sin letra pequeña."
-                : "Many families don't know better options exist. Casa Abierta translates complex information into clear decisions — in your language, at your pace, with no fine print.",
+                : "Many families don't know better options exist. Casa Abierta translates complex information into clear decisions, in your language, at your pace, with no fine print.",
             },
             {
               icon: "🌱",
@@ -1084,8 +1084,8 @@ function MissionPage({ onBack, lang }) {
           </h2>
           <p className="text-gray-300 text-lg leading-relaxed mb-4">
             {isEs
-              ? "Los inmigrantes y las familias de bajos ingresos pagan desproporcionadamente más en servicios de energía, agua y telecomunicaciones — no porque usen más, sino porque nadie les dijo que había mejores opciones."
-              : "Immigrants and low-income families disproportionately overpay for energy, water, and telecom services — not because they use more, but because nobody told them better options existed."}
+              ? "Los inmigrantes y las familias de bajos ingresos pagan desproporcionadamente más en servicios de energía, agua y telecomunicaciones, no porque usen más, sino porque nadie les dijo que había mejores opciones."
+              : "Immigrants and low-income families disproportionately overpay for energy, water, and telecom services, not because they use more, but because nobody told them better options existed."}
           </p>
           <p className="text-gray-300 text-lg leading-relaxed mb-4">
             {isEs
@@ -1133,8 +1133,8 @@ function HistoryPage({ onBack, lang }) {
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {isEs
-              ? "Somos un grupo de estudiantes hispanos de primera generación en Kennesaw State University. Muchos de nosotros venimos de familias inmigrantes — y eso lo llevamos con orgullo."
-              : "We are a group of first-generation Hispanic students at Kennesaw State University. Many of us come from immigrant families — and we carry that with pride."}
+              ? "Somos un grupo de estudiantes hispanos de primera generación en Kennesaw State University. Muchos de nosotros venimos de familias inmigrantes, y eso lo llevamos con orgullo."
+              : "We are a group of first-generation Hispanic students at Kennesaw State University. Many of us come from immigrant families, and we carry that with pride."}
           </p>
         </div>
 
@@ -1147,13 +1147,13 @@ function HistoryPage({ onBack, lang }) {
           </h2>
           <p className="text-gray-300 leading-relaxed mb-4">
             {isEs
-              ? "Casa Abierta no empezó en una sala de conferencias ni en una incubadora. Empezó en conversaciones que muchos de nosotros hemos tenido toda la vida — con padres que no entendían por qué su factura eléctrica era tan alta, con tías que pagaban de más por el teléfono porque nadie les explicó las opciones, con abuelos que no sabían que existían programas de asistencia para sus servicios."
-              : "Casa Abierta didn't start in a conference room or an incubator. It started in conversations many of us have had our whole lives — with parents who didn't understand why their electricity bill was so high, with aunts who overpaid for phone service because nobody explained their options, with grandparents who didn't know assistance programs existed."}
+              ? "Casa Abierta no empezó en una sala de conferencias ni en una incubadora. Empezó en conversaciones que muchos de nosotros hemos tenido toda la vida, con padres que no entendían por qué su factura eléctrica era tan alta, con tías que pagaban de más por el teléfono porque nadie les explicó las opciones, con abuelos que no sabían que existían programas de asistencia para sus servicios."
+              : "Casa Abierta didn't start in a conference room or an incubator. It started in conversations many of us have had our whole lives, with parents who didn't understand why their electricity bill was so high, with aunts who overpaid for phone service because nobody explained their options, with grandparents who didn't know assistance programs existed."}
           </p>
           <p className="text-gray-300 leading-relaxed">
             {isEs
-              ? "Cuando llegamos a la universidad y empezamos a estudiar ingeniería y computación, algo hizo clic: teníamos las herramientas para hacer algo al respecto. No para convertirnos en una empresa, sino para ayudar a las comunidades de las que venimos — empezando por las nuestras."
-              : "When we got to college and started studying engineering and computer science, something clicked: we had the tools to do something about it. Not to become a company, but to help the communities we come from — starting with our own."}
+              ? "Cuando llegamos a la universidad y empezamos a estudiar ingeniería y computación, algo hizo clic: teníamos las herramientas para hacer algo al respecto. No para convertirnos en una empresa, sino para ayudar a las comunidades de las que venimos, empezando por las nuestras."
+              : "When we got to college and started studying engineering and computer science, something clicked: we had the tools to do something about it. Not to become a company, but to help the communities we come from, starting with our own."}
           </p>
         </div>
 
@@ -1202,8 +1202,8 @@ function HistoryPage({ onBack, lang }) {
                 color: "border-green-500/30 bg-green-500/5",
                 textColor: "text-green-400",
                 detail: isEs
-                  ? "Según la Comisión Federal de Comunicaciones (FCC, 2023), los hogares hispanos son los menos propensos a beneficiarse del programa federal ACP, a pesar de ser elegibles. Las familias que no conocen el programa pagan en promedio $49 al mes de más — $588 al año."
-                  : "According to the FCC (2023), Hispanic households are the least likely to benefit from the federal Affordable Connectivity Program despite being eligible. Families unaware of the program pay an average of $49/month extra — $588/year.",
+                  ? "Según la Comisión Federal de Comunicaciones (FCC, 2023), los hogares hispanos son los menos propensos a beneficiarse del programa federal ACP, a pesar de ser elegibles. Las familias que no conocen el programa pagan en promedio $49 al mes de más, $588 al año."
+                  : "According to the FCC (2023), Hispanic households are the least likely to benefit from the federal Affordable Connectivity Program despite being eligible. Families unaware of the program pay an average of $49/month extra, $588/year.",
               },
               {
                 icon: "🏠",
@@ -1257,8 +1257,8 @@ function HistoryPage({ onBack, lang }) {
                   ? "Barreras de idioma"
                   : "Language barriers",
                 desc: isEs
-                  ? "El 41% de los adultos hispanos en EE.UU. hablan español en el hogar como idioma principal (Pew Research, 2023). Las compañías de servicios rara vez ofrecen materiales de comparación de tarifas o procesos de inscripción en español, lo que hace que muchas familias se queden con el plan predeterminado — a menudo el más caro."
-                  : "41% of Hispanic adults in the U.S. speak Spanish as their primary home language (Pew Research, 2023). Utility companies rarely offer rate comparison materials or enrollment processes in Spanish, causing many families to stay on the default plan — often the most expensive one.",
+                  ? "El 41% de los adultos hispanos en EE.UU. hablan español en el hogar como idioma principal (Pew Research, 2023). Las compañías de servicios rara vez ofrecen materiales de comparación de tarifas o procesos de inscripción en español, lo que hace que muchas familias se queden con el plan predeterminado, a menudo el más caro."
+                  : "41% of Hispanic adults in the U.S. speak Spanish as their primary home language (Pew Research, 2023). Utility companies rarely offer rate comparison materials or enrollment processes in Spanish, causing many families to stay on the default plan, often the most expensive one.",
               },
               {
                 title: isEs
@@ -1307,13 +1307,13 @@ function HistoryPage({ onBack, lang }) {
           </h2>
           <p className="text-gray-300 text-lg leading-relaxed mb-4">
             {isEs
-              ? "Porque lo vivimos. Somos hijos e hijas de familias que llegaron a este país con muy poco y construyeron algo desde cero. Muchos de nuestros padres trabajaron turnos dobles, mandaron remesas, y aun así terminaban el mes pagando más de lo que debían por servicios básicos — no por gastar de más, sino porque el sistema estaba diseñado para que no lo supieran."
-              : "Because we lived it. We are sons and daughters of families who came to this country with very little and built something from nothing. Many of our parents worked double shifts, sent remittances home, and still ended the month overpaying for basic services — not from overspending, but because the system was designed to keep them from knowing better."}
+              ? "Porque lo vivimos. Somos hijos e hijas de familias que llegaron a este país con muy poco y construyeron algo desde cero. Muchos de nuestros padres trabajaron turnos dobles, mandaron remesas, y aun así terminaban el mes pagando más de lo que debían por servicios básicos, no por gastar de más, sino porque el sistema estaba diseñado para que no lo supieran."
+              : "Because we lived it. We are sons and daughters of families who came to this country with very little and built something from nothing. Many of our parents worked double shifts, sent remittances home, and still ended the month overpaying for basic services, not from overspending, but because the system was designed to keep them from knowing better."}
           </p>
           <p className="text-gray-300 text-lg leading-relaxed mb-4">
             {isEs
-              ? "Esa experiencia es lo que hace que este proyecto sea personal. No estamos construyendo esto para un portafolio ni para una clase — lo estamos construyendo porque conocemos a las personas que necesitan esta herramienta. Son nuestra familia."
-              : "That experience is what makes this project personal. We are not building this for a portfolio or a class — we are building it because we know the people who need this tool. They are our family."}
+              ? "Esa experiencia es lo que hace que este proyecto sea personal. No estamos construyendo esto para un portafolio ni para una clase, lo estamos construyendo porque conocemos a las personas que necesitan esta herramienta. Son nuestra familia."
+              : "That experience is what makes this project personal. We are not building this for a portfolio or a class, we are building it because we know the people who need this tool. They are our family."}
           </p>
           <p className="text-[#FF6B35] font-bold text-lg">
             {isEs
@@ -1393,8 +1393,8 @@ function BatteryStoragePage({ onBack, lang }) {
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {isEs
-              ? "Una batería residencial convierte tu hogar en una microrred inteligente — independiente, resiliente y más económica."
-              : "A home battery turns your house into a smart microgrid — independent, resilient, and less expensive to run."}
+              ? "Una batería residencial convierte tu hogar en una microrred inteligente, independiente, resiliente y más económica."
+              : "A home battery turns your house into a smart microgrid, independent, resilient, and less expensive to run."}
           </p>
         </div>
 
@@ -1430,8 +1430,8 @@ function BatteryStoragePage({ onBack, lang }) {
                   ? "Carga durante el día o en horas valle"
                   : "Charges during the day or off-peak hours",
                 desc: isEs
-                  ? "Si tienes paneles solares, la batería se carga automáticamente con la energía excedente generada durante las horas de mayor producción solar (generalmente entre las 10 a.m. y las 3 p.m.). Si no tienes solar, la batería puede programarse para cargarse de la red durante las horas de tarifa más baja — típicamente entre medianoche y las 6 a.m. en la mayoría de las tarifas de tiempo de uso (TOU)."
-                  : "If you have solar panels, the battery charges automatically with surplus energy generated during peak solar hours (typically 10 a.m.–3 p.m.). If you have no solar, the battery can be programmed to charge from the grid during the lowest-rate hours — typically midnight to 6 a.m. under most time-of-use (TOU) rate plans.",
+                  ? "Si tienes paneles solares, la batería se carga automáticamente con la energía excedente generada durante las horas de mayor producción solar (generalmente entre las 10 a.m. y las 3 p.m.). Si no tienes solar, la batería puede programarse para cargarse de la red durante las horas de tarifa más baja, típicamente entre medianoche y las 6 a.m. en la mayoría de las tarifas de tiempo de uso (TOU)."
+                  : "If you have solar panels, the battery charges automatically with surplus energy generated during peak solar hours (typically 10 a.m.–3 p.m.). If you have no solar, the battery can be programmed to charge from the grid during the lowest-rate hours, typically midnight to 6 a.m. under most time-of-use (TOU) rate plans.",
               },
               {
                 step: "2",
@@ -1439,8 +1439,8 @@ function BatteryStoragePage({ onBack, lang }) {
                   ? "Descarga cuando la energía es más cara"
                   : "Discharges when energy is most expensive",
                 desc: isEs
-                  ? "Durante las horas pico de la tarde y noche — cuando las tarifas eléctricas son más altas y la red está más congestionada — la batería descarga su energía almacenada para alimentar tu hogar. Esto te permite evitar comprar electricidad cara de la red cuando más se necesita, reduciendo significativamente tu factura mensual incluso sin paneles solares."
-                  : "During peak afternoon and evening hours — when electricity rates are highest and the grid is most congested — the battery discharges its stored energy to power your home. This lets you avoid buying expensive grid electricity at peak demand times, significantly reducing your monthly bill even without solar panels.",
+                  ? "Durante las horas pico de la tarde y noche, cuando las tarifas eléctricas son más altas y la red está más congestionada, la batería descarga su energía almacenada para alimentar tu hogar. Esto te permite evitar comprar electricidad cara de la red cuando más se necesita, reduciendo significativamente tu factura mensual incluso sin paneles solares."
+                  : "During peak afternoon and evening hours, when electricity rates are highest and the grid is most congested, the battery discharges its stored energy to power your home. This lets you avoid buying expensive grid electricity at peak demand times, significantly reducing your monthly bill even without solar panels.",
               },
               {
                 step: "3",
@@ -1448,8 +1448,8 @@ function BatteryStoragePage({ onBack, lang }) {
                   ? "Respaldo automático en apagones"
                   : "Automatic backup during outages",
                 desc: isEs
-                  ? "Cuando detecta un corte de energía, la batería se activa en milisegundos para mantener encendidos los circuitos críticos de tu hogar — refrigerador, luces, enrutador WiFi, dispositivos médicos. Dependiendo del modelo y la capacidad, una batería completamente cargada puede alimentar un hogar promedio durante 8 a 24 horas. Con solar+batería, en teoría puedes operar indefinidamente durante el día."
-                  : "When it detects a power outage, the battery activates within milliseconds to keep critical circuits in your home running — refrigerator, lights, WiFi router, medical devices. Depending on the model and capacity, a fully charged battery can power an average home for 8–24 hours. With solar+battery, you can theoretically operate indefinitely during daylight hours.",
+                  ? "Cuando detecta un corte de energía, la batería se activa en milisegundos para mantener encendidos los circuitos críticos de tu hogar, refrigerador, luces, enrutador WiFi, dispositivos médicos. Dependiendo del modelo y la capacidad, una batería completamente cargada puede alimentar un hogar promedio durante 8 a 24 horas. Con solar+batería, en teoría puedes operar indefinidamente durante el día."
+                  : "When it detects a power outage, the battery activates within milliseconds to keep critical circuits in your home running, refrigerator, lights, WiFi router, medical devices. Depending on the model and capacity, a fully charged battery can power an average home for 8–24 hours. With solar+battery, you can theoretically operate indefinitely during daylight hours.",
               },
               {
                 step: "4",
@@ -1500,7 +1500,7 @@ function BatteryStoragePage({ onBack, lang }) {
                 color: "text-green-400",
               },
               {
-                val: "6–10 años",
+                val: isEs ? "6–10 años" : "6–10 years",
                 label: isEs
                   ? "Período típico de recuperación"
                   : "Typical payback period",
@@ -1531,8 +1531,8 @@ function BatteryStoragePage({ onBack, lang }) {
             <ul className="space-y-2">
               {[
                 isEs
-                  ? "🌞 California: SGIP (Self-Generation Incentive Program) — hasta $500/kWh instalado para comunidades de bajos ingresos"
-                  : "🌞 California: SGIP (Self-Generation Incentive Program) — up to $500/kWh installed for low-income communities",
+                  ? "🌞 California: SGIP (Self-Generation Incentive Program), hasta $500/kWh instalado para comunidades de bajos ingresos"
+                  : "🌞 California: SGIP (Self-Generation Incentive Program), up to $500/kWh installed for low-income communities",
                 isEs
                   ? "🌵 Arizona: crédito fiscal estatal de hasta $1,000 por sistema de baterías residenciales"
                   : "🌵 Arizona: state tax credit of up to $1,000 per residential battery system",
@@ -1540,8 +1540,8 @@ function BatteryStoragePage({ onBack, lang }) {
                   ? "⭐ Texas: sin impuesto sobre ventas en sistemas de energía solar y baterías (exención del 6.25%)"
                   : "⭐ Texas: no sales tax on solar energy and battery systems (6.25% exemption)",
                 isEs
-                  ? "🍊 Florida: exención del impuesto sobre la propiedad para mejoras de energía solar — el valor añadido de la batería no eleva tu impuesto predial"
-                  : "🍊 Florida: property tax exemption for solar energy improvements — added battery value does not raise your property tax",
+                  ? "🍊 Florida: exención del impuesto sobre la propiedad para mejoras de energía solar, el valor añadido de la batería no eleva tu impuesto predial"
+                  : "🍊 Florida: property tax exemption for solar energy improvements, added battery value does not raise your property tax",
               ].map((item, i) => (
                 <li key={i} className="text-gray-400 text-sm">
                   {item}
@@ -1617,8 +1617,8 @@ function BatteryStoragePage({ onBack, lang }) {
           </p>
           <p className="text-gray-300 leading-relaxed">
             {isEs
-              ? "A medida que más hogares adoptan almacenamiento de energía, la red eléctrica en su conjunto se vuelve más estable y necesita quemar menos combustibles fósiles durante los picos de demanda — lo que beneficia no solo al propietario de la batería, sino a toda la comunidad."
-              : "As more homes adopt energy storage, the electrical grid as a whole becomes more stable and needs to burn fewer fossil fuels during demand peaks — benefiting not just the battery owner, but the entire community."}
+              ? "A medida que más hogares adoptan almacenamiento de energía, la red eléctrica en su conjunto se vuelve más estable y necesita quemar menos combustibles fósiles durante los picos de demanda, lo que beneficia no solo al propietario de la batería, sino a toda la comunidad."
+              : "As more homes adopt energy storage, the electrical grid as a whole becomes more stable and needs to burn fewer fossil fuels during demand peaks, benefiting not just the battery owner, but the entire community."}
           </p>
         </div>
       </div>
@@ -1651,12 +1651,12 @@ function ConservationTipsPage({ onBack, lang }) {
             },
             {
               title: "Repara fugas en grifos y toilets",
-              desc: "Un grifo que gotea una vez por segundo desperdicia 3,000 galones al año. Un toilet con la válvula de descarga defectuosa puede desperdiciar entre 200 y 2,000 galones al día — silenciosamente. Para detectar fugas en el toilet, agrega unas gotas de colorante alimentario al tanque: si aparece color en el tazón sin halar la palanca, tienes una fuga. La mayoría de las reparaciones cuestan menos de $10 en piezas.",
+              desc: "Un grifo que gotea una vez por segundo desperdicia 3,000 galones al año. Un toilet con la válvula de descarga defectuosa puede desperdiciar entre 200 y 2,000 galones al día, silenciosamente. Para detectar fugas en el toilet, agrega unas gotas de colorante alimentario al tanque: si aparece color en el tazón sin halar la palanca, tienes una fuga. La mayoría de las reparaciones cuestan menos de $10 en piezas.",
             },
             {
               title:
                 "No dejes correr el agua mientras te cepillas los dientes",
-              desc: "Dejar el grifo abierto durante el cepillado de 2 minutos desperdicia entre 4 y 8 galones de agua. Multiplicado por 2 cepillados al día para 4 personas, eso es hasta 23,000 galones al año — el equivalente a casi medio año de duchas.",
+              desc: "Dejar el grifo abierto durante el cepillado de 2 minutos desperdicia entre 4 y 8 galones de agua. Multiplicado por 2 cepillados al día para 4 personas, eso es hasta 23,000 galones al año, el equivalente a casi medio año de duchas.",
             },
             {
               title:
@@ -1679,7 +1679,7 @@ function ConservationTipsPage({ onBack, lang }) {
             },
             {
               title: "Turn off water while brushing teeth",
-              desc: "Leaving the faucet running during a 2-minute brush wastes 4–8 gallons of water. Multiplied by 2 brushings per day for 4 people, that is up to 23,000 gallons per year — the equivalent of nearly six months of showers.",
+              desc: "Leaving the faucet running during a 2-minute brush wastes 4–8 gallons of water. Multiplied by 2 brushings per day for 4 people, that is up to 23,000 gallons per year, the equivalent of nearly six months of showers.",
             },
             {
               title:
@@ -1703,7 +1703,7 @@ function ConservationTipsPage({ onBack, lang }) {
             {
               title:
                 "Instala un controlador inteligente de riego",
-              desc: "Los controladores de riego con sensores de humedad del suelo o datos meteorológicos (como Rachio, RainBird Smart o Hunter Hydrawise) ajustan automáticamente el riego según las condiciones reales — evitando regar después de una lluvia o durante días de alta humedad. Los estudios de la EPA WaterSense muestran que estos sistemas ahorran en promedio 8,700 galones al año por hogar.",
+              desc: "Los controladores de riego con sensores de humedad del suelo o datos meteorológicos (como Rachio, RainBird Smart o Hunter Hydrawise) ajustan automáticamente el riego según las condiciones reales, evitando regar después de una lluvia o durante días de alta humedad. Los estudios de la EPA WaterSense muestran que estos sistemas ahorran en promedio 8,700 galones al año por hogar.",
             },
             {
               title: "Cubre el suelo con mantillo (mulch)",
@@ -1717,7 +1717,7 @@ function ConservationTipsPage({ onBack, lang }) {
             {
               title:
                 "Recoge agua de lluvia con barriles o cisternas",
-              desc: "Un barril de lluvia de 55 galones ($30–$80) conectado al bajante de tu techo puede capturar el agua de una tormenta de 1 pulgada sobre 1,000 pies cuadrados de techo — eso es más de 600 galones de agua de riego gratuita. En estados como Texas, Tennessee y Ohio, la recolección de agua de lluvia es legal y en algunos casos tiene incentivos fiscales.",
+              desc: "Un barril de lluvia de 55 galones ($30–$80) conectado al bajante de tu techo puede capturar el agua de una tormenta de 1 pulgada sobre 1,000 pies cuadrados de techo, eso es más de 600 galones de agua de riego gratuita. En estados como Texas, Tennessee y Ohio, la recolección de agua de lluvia es legal y en algunos casos tiene incentivos fiscales.",
             },
           ]
         : [
@@ -1727,7 +1727,7 @@ function ConservationTipsPage({ onBack, lang }) {
             },
             {
               title: "Install a smart irrigation controller",
-              desc: "Smart irrigation controllers with soil moisture sensors or weather data (like Rachio, RainBird Smart, or Hunter Hydrawise) automatically adjust watering schedules based on actual conditions — skipping cycles after rainfall or on high-humidity days. EPA WaterSense studies show these systems save an average of 8,700 gallons per household per year.",
+              desc: "Smart irrigation controllers with soil moisture sensors or weather data (like Rachio, RainBird Smart, or Hunter Hydrawise) automatically adjust watering schedules based on actual conditions, skipping cycles after rainfall or on high-humidity days. EPA WaterSense studies show these systems save an average of 8,700 gallons per household per year.",
             },
             {
               title: "Cover soil with mulch",
@@ -1741,7 +1741,7 @@ function ConservationTipsPage({ onBack, lang }) {
             {
               title:
                 "Collect rainwater with barrels or cisterns",
-              desc: "A 55-gallon rain barrel ($30–$80) connected to a downspout can capture the runoff from a 1-inch storm over 1,000 square feet of roof — that is over 600 gallons of free irrigation water. In states like Texas, Tennessee, and Ohio, rainwater collection is legal and in some cases carries tax incentives.",
+              desc: "A 55-gallon rain barrel ($30–$80) connected to a downspout can capture the runoff from a 1-inch storm over 1,000 square feet of roof, that is over 600 gallons of free irrigation water. In states like Texas, Tennessee, and Ohio, rainwater collection is legal and in some cases carries tax incentives.",
             },
           ],
     },
@@ -1815,12 +1815,12 @@ function ConservationTipsPage({ onBack, lang }) {
         ? [
             {
               title:
-                "WaterSense de la EPA — reembolsos por electrodomésticos eficientes",
+                "WaterSense de la EPA, reembolsos por electrodomésticos eficientes",
               desc: "El programa WaterSense de la EPA certifica productos de plomería eficientes (toilets, duchas, grifos, irrigación) y publica una base de datos de más de 2,500 productos. Muchas compañías de agua locales ofrecen reembolsos de $50–$200 por la compra de inodoros WaterSense certificados. Visita epa.gov/watersense para encontrar reembolsos disponibles en tu código postal.",
             },
             {
               title:
-                "LIHEAP — Programa de Asistencia de Energía para Hogares de Bajos Ingresos",
+                "LIHEAP, Programa de Asistencia de Energía para Hogares de Bajos Ingresos",
               desc: "LIHEAP es un programa federal que ayuda a familias de bajos ingresos a pagar facturas de calefacción y refrigeración. Los límites de elegibilidad son de hasta el 150% del nivel de pobreza federal (aproximadamente $43,000 al año para una familia de 4). En el año fiscal 2023, el programa distribuyó más de $6,300 millones a nivel nacional. Solicita en tu agencia de acción comunitaria local o en benefits.gov.",
             },
             {
@@ -1829,7 +1829,7 @@ function ConservationTipsPage({ onBack, lang }) {
             },
             {
               title: "Programas CARE/FERA en California",
-              desc: "Los programas CARE (California Alternate Rates for Energy) y FERA (Family Electric Rate Assistance) ofrecen descuentos del 20–35% en facturas de gas y electricidad para hogares elegibles. Se estima que más de 3 millones de hogares califican pero no están inscritos. Para verificar elegibilidad y aplicar, llama a tu compañía de electricidad o visita su sitio web — el proceso toma menos de 10 minutos.",
+              desc: "Los programas CARE (California Alternate Rates for Energy) y FERA (Family Electric Rate Assistance) ofrecen descuentos del 20–35% en facturas de gas y electricidad para hogares elegibles. Se estima que más de 3 millones de hogares califican pero no están inscritos. Para verificar elegibilidad y aplicar, llama a tu compañía de electricidad o visita su sitio web, el proceso toma menos de 10 minutos.",
             },
             {
               title: "Programa de Conectividad Asequible (ACP)",
@@ -1839,12 +1839,12 @@ function ConservationTipsPage({ onBack, lang }) {
         : [
             {
               title:
-                "EPA WaterSense — rebates for efficient fixtures",
+                "EPA WaterSense, rebates for efficient fixtures",
               desc: "The EPA's WaterSense program certifies efficient plumbing products (toilets, showers, faucets, irrigation) and publishes a database of 2,500+ certified products. Many local water utilities offer rebates of $50–$200 for certified WaterSense toilets. Visit epa.gov/watersense to find rebates available in your zip code.",
             },
             {
               title:
-                "LIHEAP — Low Income Home Energy Assistance Program",
+                "LIHEAP, Low Income Home Energy Assistance Program",
               desc: "LIHEAP is a federal program that helps low-income families pay heating and cooling bills. Eligibility thresholds are up to 150% of the federal poverty level (roughly $43,000/year for a family of 4). In fiscal year 2023, the program distributed over $6.3 billion nationally. Apply through your local community action agency or at benefits.gov.",
             },
             {
@@ -1853,7 +1853,7 @@ function ConservationTipsPage({ onBack, lang }) {
             },
             {
               title: "CARE/FERA Programs in California",
-              desc: "The CARE (California Alternate Rates for Energy) and FERA (Family Electric Rate Assistance) programs offer 20–35% discounts on gas and electricity bills for eligible households. It is estimated that over 3 million qualifying households are not enrolled. To check eligibility and apply, call your electric company or visit their website — the process takes under 10 minutes.",
+              desc: "The CARE (California Alternate Rates for Energy) and FERA (Family Electric Rate Assistance) programs offer 20–35% discounts on gas and electricity bills for eligible households. It is estimated that over 3 million qualifying households are not enrolled. To check eligibility and apply, call your electric company or visit their website, the process takes under 10 minutes.",
             },
             {
               title: "Affordable Connectivity Program (ACP)",
@@ -1891,8 +1891,8 @@ function ConservationTipsPage({ onBack, lang }) {
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {isEs
-              ? "El hogar promedio en EE.UU. desperdicia el 30% de su agua. Estos cambios simples — ordenados por área y potencial de ahorro — pueden reducir tu factura de agua entre $300 y $700 al año."
-              : "The average U.S. home wastes 30% of its water. These simple changes — organized by area and savings potential — can reduce your water bill by $300–$700 per year."}
+              ? "El hogar promedio en EE.UU. desperdicia el 30% de su agua. Estos cambios simples, ordenados por área y potencial de ahorro, pueden reducir tu factura de agua entre $300 y $700 al año."
+              : "The average U.S. home wastes 30% of its water. These simple changes, organized by area and savings potential, can reduce your water bill by $300–$700 per year."}
           </p>
         </div>
 
@@ -2007,8 +2007,8 @@ function ConservationTipsPage({ onBack, lang }) {
           </p>
           <p className="text-gray-400 mb-5 leading-relaxed">
             {isEs
-              ? "Sube tu factura de agua y te diremos exactamente dónde está el desperdicio — y qué alternativas existen en tu área."
-              : "Upload your water bill and we will tell you exactly where the waste is — and what alternatives exist in your area."}
+              ? "Sube tu factura de agua y te diremos exactamente dónde está el desperdicio, y qué alternativas existen en tu área."
+              : "Upload your water bill and we will tell you exactly where the waste is, and what alternatives exist in your area."}
           </p>
           <button className="px-8 py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg transition-all text-sm">
             {isEs
@@ -2156,7 +2156,7 @@ function getAlternatives(billType, overpaying, lang) {
         eco: 95,
         desc: es
           ? "Compra una participación en una granja solar local."
-          : "Buy a share of a local solar farm — no panels needed.",
+          : "Buy a share of a local solar farm, no panels needed.",
         why: es
           ? "Tu tarifa actual incluye cargos de infraestructura inflados."
           : "Your current rate includes inflated infrastructure fees. Community solar means you pay only for what's generated.",
@@ -2287,8 +2287,8 @@ function getAlternatives(billType, overpaying, lang) {
         reliability: 99,
         eco: 75,
         desc: es
-          ? "Actualiza accesorios — ahorros desde el día 1."
-          : "Upgrade fixtures — simple install, instant savings from day 1.",
+          ? "Actualiza accesorios, ahorros desde el día 1."
+          : "Upgrade fixtures, simple install, instant savings from day 1.",
         why: es
           ? "Los accesorios estándar usan 2–3x más agua de lo necesario."
           : "Standard fixtures use 2–3x more water than needed.",
@@ -2311,8 +2311,8 @@ function getAlternatives(billType, overpaying, lang) {
         reliability: 96,
         eco: 70,
         desc: es
-          ? "MVNO en las principales torres — misma cobertura, fracción del costo."
-          : "MVNO on major towers — same coverage, fraction of cost.",
+          ? "MVNO en las principales torres, misma cobertura, fracción del costo."
+          : "MVNO on major towers, same coverage, fraction of cost.",
         why: es
           ? "Los grandes operadores cobran primas por marketing y tiendas físicas."
           : "Big carriers charge premiums for marketing and storefronts. MVNOs use the same network infrastructure.",
@@ -2364,7 +2364,7 @@ function getAlternatives(billType, overpaying, lang) {
         eco: 65,
         desc: es
           ? "Prepago sin contrato con LTE completo."
-          : "No-contract prepaid with full LTE — no surprises.",
+          : "No-contract prepaid with full LTE, no surprises.",
         why: es
           ? "Los planes pospago incluyen subsidios de dispositivos y tarifas ocultas."
           : "Postpaid plans include device subsidies and hidden fees that inflate your bill.",
@@ -3269,7 +3269,7 @@ function PlansPage({ onBack, lang }) {
       badgeColor: "text-blue-400 bg-blue-400/10 border-blue-400/30",
       desc: isEs
         ? "Montadas en postes y paredes de edificios, las celdas pequeñas llenan vacíos de cobertura en zonas urbanas densas. Los Sistemas de Antenas Distribuidas (DAS) hacen lo mismo dentro de estadios, centros comerciales y aeropuertos."
-        : "Mounted on streetlights and building walls, small cells fill coverage gaps in dense urban areas. Distributed Antenna Systems (DAS) do the same inside stadiums, malls, and airports — that's why your signal doesn't die at a concert.",
+        : "Mounted on streetlights and building walls, small cells fill coverage gaps in dense urban areas. Distributed Antenna Systems (DAS) do the same inside stadiums, malls, and airports, that's why your signal doesn't die at a concert.",
       bars: [
         { label: isEs ? "Cobertura" : "Coverage", val: 35, color: "bg-yellow-400", text: isEs ? "Local" : "Local" },
         { label: isEs ? "Velocidad" : "Speed", val: 80, color: "bg-blue-400", text: isEs ? "Alta" : "High" },
@@ -3283,8 +3283,8 @@ function PlansPage({ onBack, lang }) {
       badge: isEs ? "Más Nuevo" : "Newest Tech",
       badgeColor: "text-[#FF6B35] bg-[#FF6B35]/10 border-[#FF6B35]/30",
       desc: isEs
-        ? "La tecnología 5G más rápida — capaz de velocidades de varios gigabits — pero apenas puede atravesar una ventana. Si tu operador cobra un extra por '5G Ultra', verifica si siquiera está disponible donde vives."
-        : "The fastest 5G technology — capable of multi-gigabit speeds — but it can barely pass through a window. If your carrier charges a premium for '5G Ultra', check if it's even available where you live.",
+        ? "La tecnología 5G más rápida, capaz de velocidades de varios gigabits, pero apenas puede atravesar una ventana. Si tu operador cobra un extra por '5G Ultra', verifica si siquiera está disponible donde vives."
+        : "The fastest 5G technology, capable of multi-gigabit speeds, but it can barely pass through a window. If your carrier charges a premium for '5G Ultra', check if it's even available where you live.",
       bars: [
         { label: isEs ? "Cobertura" : "Coverage", val: 15, color: "bg-red-400", text: isEs ? "Muy Baja" : "Very Low" },
         { label: isEs ? "Velocidad" : "Speed", val: 100, color: "bg-blue-400", text: "10 Gbps+" },
@@ -3298,29 +3298,29 @@ function PlansPage({ onBack, lang }) {
       badge: "4G LTE", badgeColor: "text-blue-400 bg-blue-400/10 border-blue-400/30",
       title: isEs ? "Excelente para la mayoría" : "Still Excellent for Most People",
       desc: isEs
-        ? "LTE cubre el 99% de la población de EE.UU. y entrega 20–100 Mbps — suficiente para transmitir video 4K y hacer videollamadas. Si un operador te cobra más por '5G' pero estás en una zona 4G, estás pagando por nada."
-        : "LTE covers 99% of the U.S. population and delivers 20–100 Mbps — more than enough to stream 4K video and video call. If a carrier charges you for '5G' but you're in a 4G area, you're paying for nothing.",
+        ? "LTE cubre el 99% de la población de EE.UU. y entrega 20–100 Mbps, suficiente para transmitir video 4K y hacer videollamadas. Si un operador te cobra más por '5G' pero estás en una zona 4G, estás pagando por nada."
+        : "LTE covers 99% of the U.S. population and delivers 20–100 Mbps, more than enough to stream 4K video and video call. If a carrier charges you for '5G' but you're in a 4G area, you're paying for nothing.",
     },
     {
       badge: "5G Sub-6 GHz", badgeColor: "text-[#FF6B35] bg-[#FF6B35]/10 border-[#FF6B35]/30",
       title: isEs ? "La actualización real de 5G" : "The Real 5G Upgrade",
       desc: isEs
-        ? "Usando frecuencias por debajo de 6 GHz, el 5G de banda media entrega 100–400 Mbps con amplia cobertura. La banda C de T-Mobile cubre más de 200 millones de personas — esta es la actualización significativa."
-        : "Mid-band 5G (especially C-band) delivers 100–400 Mbps with wide coverage. T-Mobile's mid-band 5G covers over 200 million people — this is the meaningful upgrade worth paying for.",
+        ? "Usando frecuencias por debajo de 6 GHz, el 5G de banda media entrega 100–400 Mbps con amplia cobertura. La banda C de T-Mobile cubre más de 200 millones de personas, esta es la actualización significativa."
+        : "Mid-band 5G (especially C-band) delivers 100–400 Mbps with wide coverage. T-Mobile's mid-band 5G covers over 200 million people, this is the meaningful upgrade worth paying for.",
     },
     {
       badge: "MVNOs", badgeColor: "text-green-400 bg-green-400/10 border-green-400/30",
       title: isEs ? "Mismas torres, menor factura" : "Same Towers, Lower Bills",
       desc: isEs
-        ? "Los Operadores Móviles Virtuales (MVNOs) como Mint Mobile y Visible arriendan acceso a torres de los grandes operadores. Obtienes la misma señal — sin el margen de ganancia del comercio minorista. Ahorro promedio: $30–$60/mes."
-        : "MVNOs like Mint Mobile and Visible lease tower access from major carriers. You get identical signal — just without the retail markup. Average savings: $30–$60/month.",
+        ? "Los Operadores Móviles Virtuales (MVNOs) como Mint Mobile y Visible arriendan acceso a torres de los grandes operadores. Obtienes la misma señal, sin el margen de ganancia del comercio minorista. Ahorro promedio: $30–$60/mes."
+        : "MVNOs like Mint Mobile and Visible lease tower access from major carriers. You get identical signal, just without the retail markup. Average savings: $30–$60/month.",
     },
     {
       badge: isEs ? "Llamadas WiFi" : "WiFi Calling", badgeColor: "text-yellow-400 bg-yellow-400/10 border-yellow-400/30",
       title: isEs ? "La mejora gratis que ya tienes" : "The Free Upgrade You Already Have",
       desc: isEs
-        ? "Cuando estás en WiFi, tu teléfono puede enrutar llamadas por internet en lugar de la red celular — usando cero datos del operador. Actívalo en la configuración. La mayoría no sabe que ya está incluido en su plan."
-        : "On WiFi, your phone routes calls over the internet instead of the cellular network — using zero carrier data. Enable it in your phone settings. Most people don't know it's already included in their plan.",
+        ? "Cuando estás en WiFi, tu teléfono puede enrutar llamadas por internet en lugar de la red celular, usando cero datos del operador. Actívalo en la configuración. La mayoría no sabe que ya está incluido en su plan."
+        : "On WiFi, your phone routes calls over the internet instead of the cellular network, using zero carrier data. Enable it in your phone settings. Most people don't know it's already included in their plan.",
     },
   ];
 
@@ -3373,8 +3373,8 @@ function PlansPage({ onBack, lang }) {
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {isEs
-              ? "Entender la tecnología detrás de tu factura telefónica te ayuda a elegir mejor — y dejar de pagar de más por cobertura que no necesitas."
-              : "Understanding the technology behind your phone bill helps you choose smarter — and stop overpaying for coverage you don't need."}
+              ? "Entender la tecnología detrás de tu factura telefónica te ayuda a elegir mejor, y dejar de pagar de más por cobertura que no necesitas."
+              : "Understanding the technology behind your phone bill helps you choose smarter, and stop overpaying for coverage you don't need."}
           </p>
         </div>
 
@@ -3427,7 +3427,7 @@ function PlansPage({ onBack, lang }) {
         {/* 4G vs 5G etc */}
         <div className="h-px bg-gray-800 mb-10" />
         <p className="text-xs font-bold text-[#FF6B35] uppercase tracking-widest mb-3">{isEs ? "Generaciones de Red" : "Network Generations"}</p>
-        <h2 className="text-2xl font-black mb-6">{isEs ? "4G vs 5G — Por Qué Lo Que Importa" : "4G vs 5G — What You're Actually Paying For"}</h2>
+        <h2 className="text-2xl font-black mb-6">{isEs ? "4G vs 5G, Por Qué Lo Que Importa" : "4G vs 5G, What You're Actually Paying For"}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-14">
           {genCards.map((c, i) => (
             <div key={i} className="bg-[#111] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition-colors">
@@ -3461,8 +3461,8 @@ function PlansPage({ onBack, lang }) {
           </p>
           <p className="text-gray-400 mb-5 leading-relaxed">
             {isEs
-              ? "Sube tu factura telefónica y la compararemos contra alternativas en la misma red — mismas torres, menor precio."
-              : "Upload your phone bill and we'll compare your plan against alternatives on the same network — same towers, lower price."}
+              ? "Sube tu factura telefónica y la compararemos contra alternativas en la misma red, mismas torres, menor precio."
+              : "Upload your phone bill and we'll compare your plan against alternatives on the same network, same towers, lower price."}
           </p>
           <button className="px-8 py-3 bg-gradient-to-r from-[#FF6B35] to-[#C1292E] text-white font-bold rounded-xl hover:shadow-lg transition-all text-sm">
             {isEs ? "Analizar mi factura telefónica →" : "Analyze My Phone Bill →"}
