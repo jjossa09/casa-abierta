@@ -1,0 +1,79 @@
+import os
+from typing import Any
+
+import requests
+
+
+NREL_API_KEY = os.getenv("NREL_API_KEY")
+NREL_UTILITY_RATES_URL = "https://developer.nrel.gov/api/utility_rates/v3.json"
+
+
+def lookup_energy_providers(zip_code: str) -> list[dict[str, Any]]:
+    """
+    Look up local electric utility pricing from NREL/OpenEI's utility rates API.
+    ZIP code is used as a coarse location input for the compare experience.
+    """
+    if not NREL_API_KEY:
+        return []
+
+    response = requests.get(
+        NREL_UTILITY_RATES_URL,
+        params={
+            "api_key": NREL_API_KEY,
+            "address": zip_code,
+        },
+        timeout=10,
+    )
+    response.raise_for_status()
+    data = response.json()
+    outputs = data.get("outputs", {}) or {}
+
+    residential_rate = outputs.get("residential")
+    utility_info = outputs.get("utility_info") or []
+
+    providers: list[dict[str, Any]] = []
+    for item in utility_info:
+        provider_name = item.get("utility_name")
+        if not provider_name or residential_rate is None:
+            continue
+
+        providers.append({
+            "provider_id": str(item.get("company_id", provider_name.lower().replace(" ", "-"))),
+            "provider_name": provider_name,
+            "rate": float(residential_rate),
+            "service_area": zip_code,
+            "source": "nrel",
+            "metadata": {
+                "company_id": item.get("company_id"),
+            },
+        })
+
+    return providers
+
+
+def lookup_water_providers(zip_code: str) -> list[dict[str, Any]]:
+    """
+    Water utility rates do not have a comparable national API.
+    Keep a narrow fallback structure so the compare API shape stays consistent.
+    """
+    curated = {
+        "303": [
+            {
+                "provider_id": "atlanta-watershed",
+                "provider_name": "Atlanta Watershed",
+                "rate": 0.0075,
+                "service_area": "Atlanta Metro",
+                "source": "curated",
+                "metadata": {},
+            },
+            {
+                "provider_id": "dekalb-county-water",
+                "provider_name": "DeKalb County Water",
+                "rate": 0.0068,
+                "service_area": "DeKalb County",
+                "source": "curated",
+                "metadata": {},
+            },
+        ],
+    }
+    return curated.get(zip_code[:3], [])
